@@ -1,0 +1,14 @@
+<?php
+
+namespace AppModules\{{ModuleName}}\domain\actions;
+
+class {{ActionName}}
+{
+    /**
+     * Execute the action.
+     */
+    public function handle(): mixed
+    {
+        // TODO: Implement action logic
+    }
+}

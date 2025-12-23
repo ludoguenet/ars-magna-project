@@ -1,0 +1,49 @@
+<?php
+
+namespace AppModules\{{ModuleName}}\infrastructure\repositories;
+
+use AppModules\{{ModuleName}}\domain\models\{{ModelName}};
+use Illuminate\Database\Eloquent\Collection;
+
+class {{RepositoryName}}
+{
+    /**
+     * Get all records.
+     */
+    public function all(): Collection
+    {
+        return {{ModelName}}::all();
+    }
+
+    /**
+     * Find a record by ID.
+     */
+    public function find(int $id): ?{{ModelName}}
+    {
+        return {{ModelName}}::find($id);
+    }
+
+    /**
+     * Create a new record.
+     */
+    public function create(array $data): {{ModelName}}
+    {
+        return {{ModelName}}::create($data);
+    }
+
+    /**
+     * Update a record.
+     */
+    public function update({{ModelName}} ${{modelName}}, array $data): bool
+    {
+        return ${{modelName}}->update($data);
+    }
+
+    /**
+     * Delete a record.
+     */
+    public function delete({{ModelName}} ${{modelName}}): bool
+    {
+        return ${{modelName}}->delete();
+    }
+}
