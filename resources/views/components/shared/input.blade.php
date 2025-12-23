@@ -20,7 +20,7 @@
     @if($error)
         <p class="mt-1 text-sm text-red-600">{{ $error }}</p>
     @endif
-    @if(isset($errors) && $errors->has($name))
-        <p class="mt-1 text-sm text-red-600">{{ $errors->first($name) }}</p>
-    @endif
+    @error($name)
+        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+    @enderror
 </div>

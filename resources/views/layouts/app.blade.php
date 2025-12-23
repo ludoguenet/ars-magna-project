@@ -47,7 +47,7 @@
                     <div class="hidden sm:ml-6 sm:flex sm:items-center">
                         <div class="ml-3 relative">
                             <div class="flex items-center space-x-4">
-                                <span class="text-sm text-gray-700">{{ auth()->user()->name ?? 'Guest' }}</span>
+                                <span class="text-sm text-gray-700">{{ auth()->user()?->name ?? 'Guest' }}</span>
                             </div>
                         </div>
                     </div>

@@ -16,14 +16,14 @@
                         label="Nom"
                         :value="old('name', $client->name)"
                         required
-                        :error="$errors->first('name')"
+                        :error="isset($errors) ? $errors->first('name') : null"
                     />
 
                     <x-shared::input
                         name="company"
                         label="Entreprise"
                         :value="old('company', $client->company)"
-                        :error="$errors->first('company')"
+                        :error="isset($errors) ? $errors->first('company') : null"
                     />
 
                     <x-shared::input
@@ -31,7 +31,7 @@
                         name="email"
                         label="Email"
                         :value="old('email', $client->email)"
-                        :error="$errors->first('email')"
+                        :error="isset($errors) ? $errors->first('email') : null"
                     />
 
                     <x-shared::input
@@ -39,14 +39,14 @@
                         name="phone"
                         label="Téléphone"
                         :value="old('phone', $client->phone)"
-                        :error="$errors->first('phone')"
+                        :error="isset($errors) ? $errors->first('phone') : null"
                     />
 
                     <x-shared::input
                         name="vat_number"
                         label="Numéro TVA"
                         :value="old('vat_number', $client->vat_number)"
-                        :error="$errors->first('vat_number')"
+                        :error="isset($errors) ? $errors->first('vat_number') : null"
                     />
                 </div>
 
@@ -55,7 +55,7 @@
                         name="address"
                         label="Adresse"
                         :value="old('address', $client->address)"
-                        :error="$errors->first('address')"
+                        :error="isset($errors) ? $errors->first('address') : null"
                     />
                 </div>
 
@@ -64,21 +64,21 @@
                         name="postal_code"
                         label="Code postal"
                         :value="old('postal_code', $client->postal_code)"
-                        :error="$errors->first('postal_code')"
+                        :error="isset($errors) ? $errors->first('postal_code') : null"
                     />
 
                     <x-shared::input
                         name="city"
                         label="Ville"
                         :value="old('city', $client->city)"
-                        :error="$errors->first('city')"
+                        :error="isset($errors) ? $errors->first('city') : null"
                     />
 
                     <x-shared::input
                         name="country"
                         label="Pays"
                         :value="old('country', $client->country)"
-                        :error="$errors->first('country')"
+                        :error="isset($errors) ? $errors->first('country') : null"
                     />
                 </div>
 

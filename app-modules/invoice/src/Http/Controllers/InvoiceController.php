@@ -2,6 +2,7 @@
 
 namespace AppModules\Invoice\src\Http\Controllers;
 
+use AppModules\Client\src\Repositories\ClientRepository;
 use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
 use AppModules\Invoice\src\Http\Requests\StoreInvoiceRequest;
 use AppModules\Invoice\src\Repositories\InvoiceRepository;
@@ -14,7 +15,8 @@ class InvoiceController
 {
     public function __construct(
         private InvoiceService $invoiceService,
-        private InvoiceRepository $repository
+        private InvoiceRepository $repository,
+        private ClientRepository $clientRepository
     ) {}
 
     /**
@@ -35,10 +37,12 @@ class InvoiceController
      */
     public function create(): View
     {
+        $clients = $this->clientRepository->all();
+
         /** @var view-string $view */
         $view = 'invoice::create';
 
-        return view($view);
+        return view($view, compact('clients'));
     }
 
     /**
@@ -84,10 +88,12 @@ class InvoiceController
             abort(404);
         }
 
+        $clients = $this->clientRepository->all();
+
         /** @var view-string $view */
         $view = 'invoice::edit';
 
-        return view($view, compact('invoice'));
+        return view($view, compact('invoice', 'clients'));
     }
 
     /**

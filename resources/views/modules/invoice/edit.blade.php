@@ -22,7 +22,7 @@
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="">Sélectionner un client</option>
-                            @foreach(\AppModules\Client\src\Models\Client::all() as $client)
+                            @foreach($clients as $client)
                                 <option value="{{ $client->id }}" {{ old('client_id', $invoice->client_id) == $client->id ? 'selected' : '' }}>
                                     {{ $client->name }}
                                 </option>
@@ -39,7 +39,7 @@
                         label="Date d'émission"
                         :value="old('issued_at', $invoice->issued_at?->format('Y-m-d'))"
                         required
-                        :error="$errors->first('issued_at')"
+                        :error="isset($errors) ? $errors->first('issued_at') : null"
                     />
 
                     <x-shared::input
@@ -47,7 +47,7 @@
                         name="due_at"
                         label="Date d'échéance"
                         :value="old('due_at', $invoice->due_at?->format('Y-m-d'))"
-                        :error="$errors->first('due_at')"
+                        :error="isset($errors) ? $errors->first('due_at') : null"
                     />
                 </div>
 

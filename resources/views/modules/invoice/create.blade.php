@@ -21,7 +21,7 @@
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="">Sélectionner un client</option>
-                            @foreach(\AppModules\Client\src\Models\Client::all() as $client)
+                            @foreach($clients as $client)
                                 <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                                     {{ $client->name }}
                                 </option>
@@ -38,7 +38,7 @@
                         label="Date d'émission"
                         :value="old('issued_at', now()->format('Y-m-d'))"
                         required
-                        :error="$errors->first('issued_at')"
+                        :error="isset($errors) ? $errors->first('issued_at') : null"
                     />
 
                     <x-shared::input
@@ -46,7 +46,7 @@
                         name="due_at"
                         label="Date d'échéance"
                         :value="old('due_at')"
-                        :error="$errors->first('due_at')"
+                        :error="isset($errors) ? $errors->first('due_at') : null"
                     />
                 </div>
 
@@ -60,7 +60,7 @@
                                         name="items[0][description]"
                                         label="Description"
                                         required
-                                        :error="$errors->first('items.0.description')"
+                                        :error="isset($errors) ? $errors->first('items.0.description') : null"
                                     />
                                 </div>
                                 <div class="col-span-2">
@@ -71,7 +71,7 @@
                                         label="Quantité"
                                         value="1"
                                         required
-                                        :error="$errors->first('items.0.quantity')"
+                                        :error="isset($errors) ? $errors->first('items.0.quantity') : null"
                                     />
                                 </div>
                                 <div class="col-span-2">
@@ -81,7 +81,7 @@
                                         name="items[0][unit_price]"
                                         label="Prix unitaire"
                                         required
-                                        :error="$errors->first('items.0.unit_price')"
+                                        :error="isset($errors) ? $errors->first('items.0.unit_price') : null"
                                     />
                                 </div>
                                 <div class="col-span-2">
@@ -91,7 +91,7 @@
                                         name="items[0][tax_rate]"
                                         label="Taux TVA (%)"
                                         value="0"
-                                        :error="$errors->first('items.0.tax_rate')"
+                                        :error="isset($errors) ? $errors->first('items.0.tax_rate') : null"
                                     />
                                 </div>
                                 <div class="col-span-1 flex items-end">
