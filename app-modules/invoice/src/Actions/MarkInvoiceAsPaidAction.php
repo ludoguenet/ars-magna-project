@@ -2,6 +2,7 @@
 
 namespace AppModules\Invoice\src\Actions;
 
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Events\InvoicePaid;
 use AppModules\Invoice\src\Models\Invoice;
@@ -21,8 +22,10 @@ class MarkInvoiceAsPaidAction
             'status' => InvoiceStatus::PAID,
         ]);
 
-        event(new InvoicePaid($invoice));
+        $invoice = $invoice->fresh()->load(['client', 'items']);
+        $invoiceDTO = InvoiceDTO::fromModel($invoice);
+        event(new InvoicePaid($invoiceDTO));
 
-        return $invoice->fresh();
+        return $invoice;
     }
 }

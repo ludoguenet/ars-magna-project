@@ -2,6 +2,7 @@
 
 namespace AppModules\Invoice\src\Actions;
 
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Events\InvoiceFinalized;
 use AppModules\Invoice\src\Models\Invoice;
@@ -25,8 +26,10 @@ class FinalizeInvoiceAction
             'status' => InvoiceStatus::SENT,
         ]);
 
-        event(new InvoiceFinalized($invoice));
+        $invoice = $invoice->fresh()->load(['client', 'items']);
+        $invoiceDTO = InvoiceDTO::fromModel($invoice);
+        event(new InvoiceFinalized($invoiceDTO));
 
-        return $invoice->fresh();
+        return $invoice;
     }
 }

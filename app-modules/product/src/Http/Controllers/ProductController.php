@@ -22,7 +22,8 @@ class ProductController
      */
     public function index(Request $request): View
     {
-        $products = $this->repository->all();
+        // Internal use - can use models directly
+        $products = $this->repository->allModels();
 
         /** @var view-string $view */
         $view = 'product::index';
@@ -58,7 +59,8 @@ class ProductController
      */
     public function show(int $id): View
     {
-        $product = $this->repository->find($id);
+        // Internal use - can use models directly
+        $product = $this->repository->findModel($id);
 
         if (! $product) {
             abort(404);
@@ -75,7 +77,8 @@ class ProductController
      */
     public function edit(int $id): View
     {
-        $product = $this->repository->find($id);
+        // Internal use - can use models directly
+        $product = $this->repository->findModel($id);
 
         if (! $product) {
             abort(404);
@@ -92,7 +95,8 @@ class ProductController
      */
     public function update(UpdateProductRequest $request, int $id): RedirectResponse
     {
-        $product = $this->repository->find($id);
+        // Internal use - can use models directly
+        $product = $this->repository->findModel($id);
 
         if (! $product) {
             abort(404);
@@ -110,7 +114,8 @@ class ProductController
      */
     public function destroy(int $id): RedirectResponse
     {
-        $product = $this->repository->find($id);
+        // Internal use - can use models directly
+        $product = $this->repository->findModel($id);
 
         if ($product) {
             $this->productService->delete($product);

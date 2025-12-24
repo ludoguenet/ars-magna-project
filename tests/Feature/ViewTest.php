@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use AppModules\Client\src\Models\Client;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Models\Invoice;
@@ -7,10 +8,13 @@ use AppModules\Invoice\src\Models\InvoiceItem;
 use AppModules\Product\src\Models\Product;
 use Illuminate\Support\Facades\View;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 describe('Layout Views', function () {
     it('renders app layout without errors', function () {
+        // Layout requires auth context for navigation
+        actingAs(User::factory()->create());
         $view = View::make('layouts.app');
 
         $html = $view->render();
@@ -20,12 +24,13 @@ describe('Layout Views', function () {
 
     it('renders welcome page without errors', function () {
         get('/')
-            ->assertRedirect(route('dashboard'));
+            ->assertRedirect(route('login'));
     });
 });
 
 describe('Dashboard Views', function () {
     it('renders dashboard index view with stats', function () {
+        actingAs(User::factory()->create());
         Client::factory()->count(3)->create();
         Product::factory()->count(5)->create();
         Invoice::factory()->count(2)->create();
@@ -40,6 +45,7 @@ describe('Dashboard Views', function () {
     });
 
     it('renders dashboard with recent invoices', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -54,6 +60,7 @@ describe('Dashboard Views', function () {
 
 describe('Client Views', function () {
     it('renders client index view', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
 
         get(route('client::index'))
@@ -64,6 +71,7 @@ describe('Client Views', function () {
     });
 
     it('renders client create view', function () {
+        actingAs(User::factory()->create());
         get(route('client::create'))
             ->assertSuccessful()
             ->assertViewIs('client::create')
@@ -71,6 +79,7 @@ describe('Client Views', function () {
     });
 
     it('renders client edit view', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
 
         get(route('client::edit', $client->id))
@@ -81,6 +90,7 @@ describe('Client Views', function () {
     });
 
     it('renders client show view', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create([
             'name' => 'Test Client',
             'email' => 'test@example.com',
@@ -94,6 +104,7 @@ describe('Client Views', function () {
     });
 
     it('renders client show view with invoices', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -108,6 +119,7 @@ describe('Client Views', function () {
 
 describe('Invoice Views', function () {
     it('renders invoice index view', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -121,6 +133,7 @@ describe('Invoice Views', function () {
     });
 
     it('renders invoice create view with clients', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
 
         get(route('invoice::create'))
@@ -131,6 +144,7 @@ describe('Invoice Views', function () {
     });
 
     it('renders invoice edit view with clients', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -143,6 +157,7 @@ describe('Invoice Views', function () {
     });
 
     it('renders invoice show view', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -157,6 +172,7 @@ describe('Invoice Views', function () {
     });
 
     it('renders invoice show view with items', function () {
+        actingAs(User::factory()->create());
         $client = Client::factory()->create();
         $invoice = Invoice::factory()->create([
             'client_id' => $client->id,
@@ -174,6 +190,7 @@ describe('Invoice Views', function () {
 
 describe('Product Views', function () {
     it('renders product index view', function () {
+        actingAs(User::factory()->create());
         $product = Product::factory()->create();
 
         get(route('product::index'))
@@ -184,6 +201,7 @@ describe('Product Views', function () {
     });
 
     it('renders product create view', function () {
+        actingAs(User::factory()->create());
         get(route('product::create'))
             ->assertSuccessful()
             ->assertViewIs('product::create')
@@ -191,6 +209,7 @@ describe('Product Views', function () {
     });
 
     it('renders product edit view', function () {
+        actingAs(User::factory()->create());
         $product = Product::factory()->create();
 
         get(route('product::edit', $product->id))
@@ -201,6 +220,7 @@ describe('Product Views', function () {
     });
 
     it('renders product show view', function () {
+        actingAs(User::factory()->create());
         $product = Product::factory()->create([
             'name' => 'Test Product',
             'price' => 99.99,
@@ -231,7 +251,7 @@ describe('Component Views', function () {
         ])->with('slot', 'Click me');
 
         $html = $view->render();
-        expect($html)->toContain('bg-blue-600');
+        expect($html)->toContain('bg-[hsl(var(--color-primary))]');
         expect($html)->toContain('Click me');
     });
 

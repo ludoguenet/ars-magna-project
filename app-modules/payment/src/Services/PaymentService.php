@@ -2,7 +2,7 @@
 
 namespace AppModules\Payment\src\Services;
 
-use AppModules\Invoice\src\Models\Invoice;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Payment\src\Repositories\PaymentRepository;
 
 class PaymentService
@@ -14,7 +14,7 @@ class PaymentService
     /**
      * Create a payment record for an invoice.
      */
-    public function createPaymentForInvoice(Invoice $invoice): \AppModules\Payment\src\Models\Payment
+    public function createPaymentForInvoice(InvoiceDTO $invoice): \AppModules\Payment\src\Models\Payment
     {
         return $this->repository->create([
             'invoice_id' => $invoice->id,

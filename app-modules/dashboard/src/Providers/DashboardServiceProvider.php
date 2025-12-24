@@ -11,7 +11,7 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register any bindings here
+        // Contracts are bound in their respective module service providers
     }
 
     /**

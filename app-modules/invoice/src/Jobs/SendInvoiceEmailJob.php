@@ -2,7 +2,6 @@
 
 namespace AppModules\Invoice\src\Jobs;
 
-use AppModules\Invoice\src\Models\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +14,7 @@ class SendInvoiceEmailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        public Invoice $invoice
+        public int $invoiceId
     ) {}
 
     /**
@@ -23,9 +22,20 @@ class SendInvoiceEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $repository = app(\AppModules\Invoice\src\Repositories\InvoiceRepository::class);
+        $invoice = $repository->findModel($this->invoiceId);
+
+        if (! $invoice) {
+            \Illuminate\Support\Facades\Log::warning('Invoice not found for email sending', [
+                'invoice_id' => $this->invoiceId,
+            ]);
+
+            return;
+        }
+
         // TODO: Implement email sending
         // Example:
-        // Mail::to($this->invoice->client->email)
-        //     ->send(new InvoiceMail($this->invoice));
+        // Mail::to($invoice->client->email)
+        //     ->send(new InvoiceMail($invoice));
     }
 }

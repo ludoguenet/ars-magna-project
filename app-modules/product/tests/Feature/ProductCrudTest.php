@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use AppModules\Product\src\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -13,6 +15,10 @@ use function Pest\Laravel\put;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
+
+beforeEach(function () {
+    actingAs(User::factory()->create());
+});
 
 it('can display the product index page', function () {
     Product::factory()->count(3)->create();

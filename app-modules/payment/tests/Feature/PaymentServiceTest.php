@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use AppModules\Client\src\Models\Client;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Models\Invoice;
 use AppModules\Payment\src\Models\Payment;
 use AppModules\Payment\src\Services\PaymentService;
@@ -17,8 +18,9 @@ it('creates a payment record for an invoice', function () {
         'total' => 1000.00,
     ]);
 
+    $invoiceDTO = InvoiceDTO::fromModel($invoice->load(['client', 'items']));
     $service = app(PaymentService::class);
-    $payment = $service->createPaymentForInvoice($invoice);
+    $payment = $service->createPaymentForInvoice($invoiceDTO);
 
     expect($payment)
         ->toBeInstanceOf(Payment::class)

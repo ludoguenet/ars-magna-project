@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Facture {{ $invoice->invoice_number }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900">Facture {{ $invoice->invoiceNumber }}</h1>
             <div class="flex gap-2">
                 <a href="{{ route('invoice::edit', $invoice->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
                     Edit
@@ -23,7 +23,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <h3 class="text-sm font-medium text-gray-500 mb-2">Client</h3>
-                    <p class="text-sm text-gray-900">{{ $invoice->client->name ?? '-' }}</p>
+                    <p class="text-sm text-gray-900">{{ $invoice->client?->name ?? '-' }}</p>
                     @if($invoice->client)
                         <p class="text-sm text-gray-500 mt-1">{{ $invoice->client->company ?? '' }}</p>
                     @endif
@@ -31,11 +31,11 @@
                 <div>
                     <h3 class="text-sm font-medium text-gray-500 mb-2">Dates</h3>
                     <p class="text-sm text-gray-900">
-                        Issue Date: {{ $invoice->issued_at?->format('d/m/Y') ?? '-' }}
+                        Issue Date: {{ $invoice->issuedAt?->format('d/m/Y') ?? '-' }}
                     </p>
-                    @if($invoice->due_at)
+                    @if($invoice->dueAt)
                         <p class="text-sm text-gray-900">
-                            Due Date: {{ $invoice->due_at->format('d/m/Y') }}
+                            Due Date: {{ $invoice->dueAt->format('d/m/Y') }}
                         </p>
                     @endif
                 </div>
@@ -67,13 +67,13 @@
                                     {{ number_format($item->quantity, 2, ',', ' ') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ number_format($item->unit_price, 2, ',', ' ') }} €
+                                    {{ number_format($item->unitPrice, 2, ',', ' ') }} €
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ number_format($item->tax_rate, 2, ',', ' ') }} %
+                                    {{ number_format($item->taxRate, 2, ',', ' ') }} %
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                                    {{ number_format($item->line_total, 2, ',', ' ') }} €
+                                    {{ number_format($item->lineTotal, 2, ',', ' ') }} €
                                 </td>
                             </tr>
                         @empty
@@ -93,23 +93,23 @@
                                 {{ number_format($invoice->subtotal, 2, ',', ' ') }} €
                             </td>
                         </tr>
-                        @if($invoice->discount_amount > 0)
+                        @if($invoice->discountAmount > 0)
                             <tr>
                                 <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">
                                     Discount:
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
-                                    -{{ number_format($invoice->discount_amount, 2, ',', ' ') }} €
+                                    -{{ number_format($invoice->discountAmount, 2, ',', ' ') }} €
                                 </td>
                             </tr>
                         @endif
-                        @if($invoice->tax_amount > 0)
+                        @if($invoice->taxAmount > 0)
                             <tr>
                                 <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">
                                     Tax:
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
-                                    {{ number_format($invoice->tax_amount, 2, ',', ' ') }} €
+                                    {{ number_format($invoice->taxAmount, 2, ',', ' ') }} €
                                 </td>
                             </tr>
                         @endif

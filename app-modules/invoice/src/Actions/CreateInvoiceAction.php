@@ -3,6 +3,7 @@
 namespace AppModules\Invoice\src\Actions;
 
 use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Invoice\src\Models\Invoice;
@@ -36,7 +37,8 @@ class CreateInvoiceAction
             'total' => 0,
         ]);
 
-        event(new InvoiceCreated($invoice));
+        $invoiceDTO = InvoiceDTO::fromModel($invoice->load(['client', 'items']));
+        event(new InvoiceCreated($invoiceDTO));
 
         return $invoice;
     }

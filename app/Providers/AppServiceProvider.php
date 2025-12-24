@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\ViewErrorBag;
@@ -41,5 +42,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Ensure $errors is always available in views
         View::share('errors', session()->get('errors') ?? new ViewErrorBag);
+
+        // Register anonymous Blade components
+        Blade::anonymousComponentPath(
+            resource_path('views/components/shared'),
+            'shared'
+        );
     }
 }

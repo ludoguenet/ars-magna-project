@@ -26,8 +26,8 @@ class HandleInvoiceCreated
         // Log the event for debugging/monitoring
         Log::info('Invoice created - Payment module notified', [
             'invoice_id' => $invoice->id,
-            'invoice_number' => $invoice->invoice_number,
-            'client_id' => $invoice->client_id,
+            'invoice_number' => $invoice->invoiceNumber,
+            'client_id' => $invoice->clientId,
             'total' => $invoice->total,
             'status' => $invoice->status->value,
         ]);
@@ -43,19 +43,20 @@ class HandleInvoiceCreated
         ]);
 
         // 2. Schedule a payment reminder if due date exists
-        if ($invoice->due_at) {
+        if ($invoice->dueAt) {
             // Schedule reminder 7 days before due date
-            $reminderDate = $invoice->due_at->copy()->subDays(7);
+            $reminderDate = clone $invoice->dueAt;
+            $reminderDate->modify('-7 days');
 
             // Only schedule if reminder date is in the future
-            if ($reminderDate->isFuture()) {
-                SendPaymentReminderJob::dispatch($invoice)
+            if ($reminderDate > new \DateTime) {
+                SendPaymentReminderJob::dispatch($invoice->id)
                     ->delay($reminderDate);
 
                 Log::info('Payment reminder scheduled', [
                     'invoice_id' => $invoice->id,
-                    'reminder_date' => $reminderDate->toDateString(),
-                    'due_date' => $invoice->due_at->toDateString(),
+                    'reminder_date' => $reminderDate->format('Y-m-d'),
+                    'due_date' => $invoice->dueAt->format('Y-m-d'),
                 ]);
             }
         }

@@ -22,7 +22,8 @@ class ClientController
      */
     public function index(Request $request): View
     {
-        $clients = $this->repository->all();
+        // Internal use - can use models directly
+        $clients = $this->repository->allModels();
 
         return view('client::index', compact('clients'));
     }
@@ -52,7 +53,8 @@ class ClientController
      */
     public function show(int $id): View
     {
-        $client = $this->repository->find($id);
+        // Internal use - can use models directly
+        $client = $this->repository->findModel($id);
 
         if (! $client) {
             abort(404);
@@ -66,7 +68,8 @@ class ClientController
      */
     public function edit(int $id): View
     {
-        $client = $this->repository->find($id);
+        // Internal use - can use models directly
+        $client = $this->repository->findModel($id);
 
         if (! $client) {
             abort(404);
@@ -80,7 +83,8 @@ class ClientController
      */
     public function update(UpdateClientRequest $request, int $id): RedirectResponse
     {
-        $client = $this->repository->find($id);
+        // Internal use - can use models directly
+        $client = $this->repository->findModel($id);
 
         if (! $client) {
             abort(404);
@@ -98,7 +102,8 @@ class ClientController
      */
     public function destroy(int $id): RedirectResponse
     {
-        $client = $this->repository->find($id);
+        // Internal use - can use models directly
+        $client = $this->repository->findModel($id);
 
         if ($client) {
             $this->clientService->delete($client);

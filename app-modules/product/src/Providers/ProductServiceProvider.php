@@ -11,7 +11,10 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register any bindings here
+        $this->app->bind(
+            \AppModules\Product\src\Contracts\ProductRepositoryContract::class,
+            \AppModules\Product\src\Repositories\ProductRepository::class
+        );
     }
 
     /**

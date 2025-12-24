@@ -75,6 +75,9 @@ class Invoice extends Model
 
     /**
      * Get the client.
+     *
+     * @internal This relationship is for internal use only within the Invoice module.
+     * Other modules should use ClientRepositoryContract to access client data.
      */
     public function client(): BelongsTo
     {

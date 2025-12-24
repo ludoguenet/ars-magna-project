@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         __DIR__.'/../app-modules/*/src/Listeners',
     ])
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(fn () => route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

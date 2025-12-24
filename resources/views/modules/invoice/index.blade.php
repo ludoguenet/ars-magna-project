@@ -3,67 +3,75 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Invoices</h1>
-        <a href="{{ route('invoice::create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-            New Invoice
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight">Invoices</h1>
+            <p class="text-sm text-[hsl(var(--color-muted-foreground))] mt-1">Manage and track your invoices</p>
+        </div>
+        <a href="{{ route('invoice::create') }}">
+            <x-shared::button variant="primary">
+                New Invoice
+            </x-shared::button>
         </a>
     </div>
 
     <x-shared::card>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <table class="w-full caption-bottom text-sm">
+                <thead>
+                    <tr class="border-b border-[hsl(var(--color-border))] transition-colors hover:bg-[hsl(var(--color-muted))]/50">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Number
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Client
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Issue Date
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Amount
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Status
                         </th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-right align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                     @forelse($invoices as $invoice)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $invoice->invoice_number }}
+                        <tr class="border-b border-[hsl(var(--color-border))] transition-colors hover:bg-[hsl(var(--color-muted))]/50">
+                            <td class="p-4 align-middle font-medium">
+                                {{ $invoice->invoiceNumber }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $invoice->client->name ?? '-' }}
+                            <td class="p-4 align-middle text-[hsl(var(--color-muted-foreground))]">
+                                {{ $invoice->client?->name ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $invoice->issued_at?->format('d/m/Y') ?? '-' }}
+                            <td class="p-4 align-middle text-[hsl(var(--color-muted-foreground))]">
+                                {{ $invoice->issuedAt?->format('d/m/Y') ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td class="p-4 align-middle font-medium">
                                 {{ number_format($invoice->total, 2, ',', ' ') }} €
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="p-4 align-middle">
                                 <x-invoice::invoice-status :status="$invoice->status" />
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('invoice::show', $invoice->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                                    View
-                                </a>
-                                <a href="{{ route('invoice::edit', $invoice->id) }}" class="text-indigo-600 hover:text-indigo-900">
-                                    Edit
-                                </a>
+                            <td class="p-4 align-middle text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('invoice::show', $invoice->id) }}" class="text-sm font-medium text-[hsl(var(--color-primary))] hover:underline">
+                                        View
+                                    </a>
+                                    <span class="text-[hsl(var(--color-border))]">|</span>
+                                    <a href="{{ route('invoice::edit', $invoice->id) }}" class="text-sm font-medium text-[hsl(var(--color-primary))] hover:underline">
+                                        Edit
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                            <td colspan="6" class="p-8 text-center text-sm text-[hsl(var(--color-muted-foreground))]">
                                 No invoices found
                             </td>
                         </tr>

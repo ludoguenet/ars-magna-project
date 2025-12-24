@@ -50,10 +50,13 @@ class Payment extends Model
 
     /**
      * Get the invoice.
+     *
+     * @internal This relationship is for internal use only within the Payment module.
+     * Other modules should use InvoiceRepositoryContract to access invoice data.
      */
     public function invoice(): BelongsTo
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(\AppModules\Invoice\src\Models\Invoice::class);
     }
 
     /**

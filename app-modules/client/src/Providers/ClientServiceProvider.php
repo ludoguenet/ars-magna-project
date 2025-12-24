@@ -12,7 +12,10 @@ class ClientServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register any bindings here
+        $this->app->bind(
+            \AppModules\Client\src\Contracts\ClientRepositoryContract::class,
+            \AppModules\Client\src\Repositories\ClientRepository::class
+        );
     }
 
     /**

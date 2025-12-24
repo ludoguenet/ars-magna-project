@@ -2,10 +2,10 @@
 
 namespace AppModules\Invoice\src\Http\Controllers;
 
-use AppModules\Client\src\Repositories\ClientRepository;
+use AppModules\Client\src\Contracts\ClientRepositoryContract;
+use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;
 use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
 use AppModules\Invoice\src\Http\Requests\StoreInvoiceRequest;
-use AppModules\Invoice\src\Repositories\InvoiceRepository;
 use AppModules\Invoice\src\Services\InvoiceService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,8 +15,8 @@ class InvoiceController
 {
     public function __construct(
         private InvoiceService $invoiceService,
-        private InvoiceRepository $repository,
-        private ClientRepository $clientRepository
+        private InvoiceRepositoryContract $repository,
+        private ClientRepositoryContract $clientRepository
     ) {}
 
     /**
@@ -110,11 +110,7 @@ class InvoiceController
      */
     public function destroy(int $id): RedirectResponse
     {
-        $invoice = $this->repository->find($id);
-
-        if ($invoice) {
-            $this->repository->delete($invoice);
-        }
+        $this->repository->deleteById($id);
 
         return redirect()
             ->route('invoice::index')

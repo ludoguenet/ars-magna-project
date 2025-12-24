@@ -3,13 +3,16 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">New Client</h1>
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold tracking-tight">New Client</h1>
+            <p class="text-sm text-[hsl(var(--color-muted-foreground))] mt-1">Add a new client to your system</p>
+        </div>
 
         <x-shared::card>
-            <form action="{{ route('client::store') }}" method="POST">
+            <form action="{{ route('client::store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <x-shared::input
                         name="name"
                         label="Name"
@@ -44,15 +47,13 @@
                     />
                 </div>
 
-                <div class="mt-4">
-                    <x-shared::input
-                        name="address"
-                        label="Address"
-                        :error="isset($errors) ? $errors->first('address') : null"
-                    />
-                </div>
+                <x-shared::input
+                    name="address"
+                    label="Address"
+                    :error="isset($errors) ? $errors->first('address') : null"
+                />
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <x-shared::input
                         name="postal_code"
                         label="Postal Code"
@@ -72,27 +73,29 @@
                     />
                 </div>
 
-                <div class="mt-4">
-                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="notes" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Notes
                     </label>
                     <textarea
                         name="notes"
                         id="notes"
                         rows="4"
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        class="flex min-h-[80px] w-full rounded-lg border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] px-3 py-2 text-sm ring-offset-[hsl(var(--color-background))] placeholder:text-[hsl(var(--color-muted-foreground))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-ring))] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     >{{ old('notes') }}</textarea>
                     @error('notes')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="text-sm font-medium text-[hsl(var(--color-destructive))]">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mt-6 flex gap-4">
+                <div class="flex items-center gap-4 pt-4">
                     <x-shared::button type="submit" variant="primary">
-                        Create
+                        Create Client
                     </x-shared::button>
-                    <a href="{{ route('client::index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Cancel
+                    <a href="{{ route('client::index') }}">
+                        <x-shared::button variant="outline" type="button">
+                            Cancel
+                        </x-shared::button>
                     </a>
                 </div>
             </form>

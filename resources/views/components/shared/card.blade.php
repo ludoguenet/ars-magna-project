@@ -1,12 +1,12 @@
 @props(['title' => null])
 
-<div class="bg-white rounded-lg shadow {{ $attributes->get('class') }}">
+<div {{ $attributes->merge(['class' => 'rounded-xl border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] text-[hsl(var(--color-card-foreground))] shadow-sm']) }}>
     @if($title)
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">{{ $title }}</h3>
+        <div class="px-6 py-4 border-b border-[hsl(var(--color-border))]">
+            <h3 class="text-lg font-semibold leading-none tracking-tight">{{ $title }}</h3>
         </div>
     @endif
-    <div class="px-6 py-4">
+    <div class="p-6">
         {{ $slot }}
     </div>
 </div>

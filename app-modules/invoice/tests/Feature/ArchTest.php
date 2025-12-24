@@ -3,12 +3,15 @@
 declare(strict_types=1);
 
 arch()
-    ->expect('AppModules\Invoice')
-    ->toOnlyBeUsedIn('AppModules\Invoice')
+    ->expect('AppModules\Invoice\src')
+    ->not->toBeUsedIn('AppModules\Client\src')
+    ->not->toBeUsedIn('AppModules\Payment\src')
+    ->not->toBeUsedIn('AppModules\Dashboard\src')
+    ->not->toBeUsedIn('AppModules\Product\src')
     ->ignoring([
-        'AppModules\Invoice\Contracts',
-        'AppModules\Invoice\DataTransferObjects',
-        'AppModules\Invoice\Events',
-        'AppModules\Invoice\Enums',
-        'AppModules\Invoice\Exceptions',
+        'AppModules\Invoice\src\Contracts',
+        'AppModules\Invoice\src\DataTransferObjects',
+        'AppModules\Invoice\src\Events',
+        'AppModules\Invoice\src\Enums',
+        'AppModules\Invoice\src\Exceptions',
     ]);

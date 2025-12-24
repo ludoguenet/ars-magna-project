@@ -52,6 +52,9 @@ class Client extends Model
 
     /**
      * Get the invoices for the client.
+     *
+     * @internal This relationship is for internal use only within the Client module.
+     * Other modules should use InvoiceRepositoryContract to access invoice data.
      */
     public function invoices(): HasMany
     {

@@ -3,61 +3,69 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Clients</h1>
-        <a href="{{ route('client::create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-            New Client
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight">Clients</h1>
+            <p class="text-sm text-[hsl(var(--color-muted-foreground))] mt-1">Manage your client relationships</p>
+        </div>
+        <a href="{{ route('client::create') }}">
+            <x-shared::button variant="primary">
+                New Client
+            </x-shared::button>
         </a>
     </div>
 
     <x-shared::card>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <table class="w-full caption-bottom text-sm">
+                <thead>
+                    <tr class="border-b border-[hsl(var(--color-border))] transition-colors hover:bg-[hsl(var(--color-muted))]/50">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Name
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Company
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Email
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-left align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Phone
                         </th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="h-12 px-4 text-right align-middle font-medium text-[hsl(var(--color-muted-foreground))]">
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                     @forelse($clients as $client)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <tr class="border-b border-[hsl(var(--color-border))] transition-colors hover:bg-[hsl(var(--color-muted))]/50">
+                            <td class="p-4 align-middle font-medium">
                                 {{ $client->name }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="p-4 align-middle text-[hsl(var(--color-muted-foreground))]">
                                 {{ $client->company ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="p-4 align-middle text-[hsl(var(--color-muted-foreground))]">
                                 {{ $client->email ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="p-4 align-middle text-[hsl(var(--color-muted-foreground))]">
                                 {{ $client->phone ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('client::show', $client->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                                    View
-                                </a>
-                                <a href="{{ route('client::edit', $client->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">
-                                    Edit
-                                </a>
+                            <td class="p-4 align-middle text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('client::show', $client->id) }}" class="text-sm font-medium text-[hsl(var(--color-primary))] hover:underline">
+                                        View
+                                    </a>
+                                    <span class="text-[hsl(var(--color-border))]">|</span>
+                                    <a href="{{ route('client::edit', $client->id) }}" class="text-sm font-medium text-[hsl(var(--color-primary))] hover:underline">
+                                        Edit
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                            <td colspan="5" class="p-8 text-center text-sm text-[hsl(var(--color-muted-foreground))]">
                                 No clients found
                             </td>
                         </tr>

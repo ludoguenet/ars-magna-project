@@ -14,7 +14,7 @@ class GenerateInvoicePDFJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        public Invoice $invoice
+        public int $invoiceId
     ) {}
 
     /**
@@ -22,9 +22,20 @@ class GenerateInvoicePDFJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $repository = app(\AppModules\Invoice\src\Repositories\InvoiceRepository::class);
+        $invoice = $repository->findModel($this->invoiceId);
+
+        if (! $invoice) {
+            \Illuminate\Support\Facades\Log::warning('Invoice not found for PDF generation', [
+                'invoice_id' => $this->invoiceId,
+            ]);
+
+            return;
+        }
+
         // TODO: Implement PDF generation using Snappy
         // Example:
-        // $pdf = PDF::loadView('invoice::pdf.template', ['invoice' => $this->invoice]);
-        // Storage::put("invoices/{$this->invoice->invoice_number}.pdf", $pdf->output());
+        // $pdf = PDF::loadView('invoice::pdf.template', ['invoice' => $invoice]);
+        // Storage::put("invoices/{$invoice->invoice_number}.pdf", $pdf->output());
     }
 }

@@ -64,6 +64,9 @@ class InvoiceItem extends Model
 
     /**
      * Get the product.
+     *
+     * @internal This relationship is for internal use only within the Invoice module.
+     * Other modules should use ProductRepositoryContract to access product data.
      */
     public function product(): BelongsTo
     {

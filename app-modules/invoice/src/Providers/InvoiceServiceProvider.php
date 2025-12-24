@@ -12,7 +12,10 @@ class InvoiceServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register any bindings here
+        $this->app->bind(
+            \AppModules\Invoice\src\Contracts\InvoiceRepositoryContract::class,
+            \AppModules\Invoice\src\Repositories\InvoiceRepository::class
+        );
     }
 
     /**

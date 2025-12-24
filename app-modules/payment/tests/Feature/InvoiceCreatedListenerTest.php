@@ -75,7 +75,7 @@ it('schedules payment reminder when invoice has due date', function () {
 
     // Verify reminder job was dispatched
     Queue::assertPushed(SendPaymentReminderJob::class, function ($job) use ($invoice) {
-        return $job->invoice->id === $invoice->id;
+        return $job->invoiceId === $invoice->id;
     });
 });
 

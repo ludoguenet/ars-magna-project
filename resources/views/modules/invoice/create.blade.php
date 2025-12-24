@@ -3,22 +3,25 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">New Invoice</h1>
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold tracking-tight">New Invoice</h1>
+            <p class="text-sm text-[hsl(var(--color-muted-foreground))] mt-1">Create a new invoice for your client</p>
+        </div>
 
         <x-shared::card>
-            <form action="{{ route('invoice::store') }}" method="POST">
+            <form action="{{ route('invoice::store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="client_id" class="block text-sm font-medium text-gray-700 mb-1">
-                            Client <span class="text-red-500">*</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="client_id" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Client <span class="text-[hsl(var(--color-destructive))]">*</span>
                         </label>
                         <select
                             name="client_id"
                             id="client_id"
                             required
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            class="flex h-10 w-full rounded-lg border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] px-3 py-2 text-sm ring-offset-[hsl(var(--color-background))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-ring))] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <option value="">Select a client</option>
                             @foreach($clients as $client)
@@ -28,7 +31,7 @@
                             @endforeach
                         </select>
                         @error('client_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm font-medium text-[hsl(var(--color-destructive))]">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -50,99 +53,103 @@
                     />
                 </div>
 
-                <div class="mt-6">
-                    <h2 class="text-lg font-medium text-gray-900 mb-4">Items</h2>
-                    <div id="items-container">
-                        <div class="item-row border-b border-gray-200 pb-4 mb-4">
-                            <div class="grid grid-cols-12 gap-4">
-                                <div class="col-span-5">
-                                    <x-shared::input
-                                        name="items[0][description]"
-                                        label="Description"
-                                        required
-                                        :error="isset($errors) ? $errors->first('items.0.description') : null"
-                                    />
-                                </div>
-                                <div class="col-span-2">
-                                    <x-shared::input
-                                        type="number"
-                                        step="0.01"
-                                        name="items[0][quantity]"
-                                        label="Quantity"
-                                        value="1"
-                                        required
-                                        :error="isset($errors) ? $errors->first('items.0.quantity') : null"
-                                    />
-                                </div>
-                                <div class="col-span-2">
-                                    <x-shared::input
-                                        type="number"
-                                        step="0.01"
-                                        name="items[0][unit_price]"
-                                        label="Unit Price"
-                                        required
-                                        :error="isset($errors) ? $errors->first('items.0.unit_price') : null"
-                                    />
-                                </div>
-                                <div class="col-span-2">
-                                    <x-shared::input
-                                        type="number"
-                                        step="0.01"
-                                        name="items[0][tax_rate]"
-                                        label="Tax Rate (%)"
-                                        value="0"
-                                        :error="isset($errors) ? $errors->first('items.0.tax_rate') : null"
-                                    />
-                                </div>
-                                <div class="col-span-1 flex items-end">
-                                    <button type="button" class="remove-item text-red-600 hover:text-red-800" style="display: none;">
-                                        Remove
-                                    </button>
+                <div class="space-y-4">
+                    <div>
+                        <h2 class="text-lg font-semibold leading-none tracking-tight mb-4">Items</h2>
+                        <div id="items-container" class="space-y-4">
+                            <div class="item-row rounded-lg border border-[hsl(var(--color-border))] p-4">
+                                <div class="grid grid-cols-12 gap-4">
+                                    <div class="col-span-5">
+                                        <x-shared::input
+                                            name="items[0][description]"
+                                            label="Description"
+                                            required
+                                            :error="isset($errors) ? $errors->first('items.0.description') : null"
+                                        />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <x-shared::input
+                                            type="number"
+                                            step="0.01"
+                                            name="items[0][quantity]"
+                                            label="Quantity"
+                                            value="1"
+                                            required
+                                            :error="isset($errors) ? $errors->first('items.0.quantity') : null"
+                                        />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <x-shared::input
+                                            type="number"
+                                            step="0.01"
+                                            name="items[0][unit_price]"
+                                            label="Unit Price"
+                                            required
+                                            :error="isset($errors) ? $errors->first('items.0.unit_price') : null"
+                                        />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <x-shared::input
+                                            type="number"
+                                            step="0.01"
+                                            name="items[0][tax_rate]"
+                                            label="Tax Rate (%)"
+                                            value="0"
+                                            :error="isset($errors) ? $errors->first('items.0.tax_rate') : null"
+                                        />
+                                    </div>
+                                    <div class="col-span-1 flex items-end">
+                                        <button type="button" class="remove-item text-sm font-medium text-[hsl(var(--color-destructive))] hover:underline" style="display: none;">
+                                            Remove
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <button type="button" id="add-item" class="mt-2 text-sm font-medium text-[hsl(var(--color-primary))] hover:underline">
+                            + Add Item
+                        </button>
                     </div>
-                    <button type="button" id="add-item" class="mt-2 text-blue-600 hover:text-blue-800">
-                        + Add Item
-                    </button>
                 </div>
 
-                <div class="mt-6">
-                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="notes" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Notes
                     </label>
                     <textarea
                         name="notes"
                         id="notes"
                         rows="4"
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        class="flex min-h-[80px] w-full rounded-lg border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] px-3 py-2 text-sm ring-offset-[hsl(var(--color-background))] placeholder:text-[hsl(var(--color-muted-foreground))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-ring))] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     >{{ old('notes') }}</textarea>
                     @error('notes')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="text-sm font-medium text-[hsl(var(--color-destructive))]">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mt-6">
-                    <label for="terms" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Terms
                     </label>
                     <textarea
                         name="terms"
                         id="terms"
                         rows="4"
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        class="flex min-h-[80px] w-full rounded-lg border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] px-3 py-2 text-sm ring-offset-[hsl(var(--color-background))] placeholder:text-[hsl(var(--color-muted-foreground))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-ring))] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     >{{ old('terms') }}</textarea>
                     @error('terms')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="text-sm font-medium text-[hsl(var(--color-destructive))]">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mt-6 flex gap-4">
+                <div class="flex items-center gap-4 pt-4">
                     <x-shared::button type="submit" variant="primary">
-                        Create
+                        Create Invoice
                     </x-shared::button>
-                    <a href="{{ route('invoice::index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Cancel
+                    <a href="{{ route('invoice::index') }}">
+                        <x-shared::button variant="outline" type="button">
+                            Cancel
+                        </x-shared::button>
                     </a>
                 </div>
             </form>

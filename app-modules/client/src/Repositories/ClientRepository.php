@@ -2,25 +2,50 @@
 
 namespace AppModules\Client\src\Repositories;
 
+use AppModules\Client\src\Contracts\ClientRepositoryContract;
+use AppModules\Client\src\DataTransferObjects\ClientDTO;
 use AppModules\Client\src\Models\Client;
-use Illuminate\Database\Eloquent\Collection;
 
-class ClientRepository
+class ClientRepository implements ClientRepositoryContract
 {
     /**
      * Get all clients.
+     *
+     * @return array<ClientDTO>
      */
-    public function all(): Collection
+    public function all(): array
     {
-        return Client::query()->orderBy('name')->get();
+        return Client::query()
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Client $client) => ClientDTO::fromModel($client))
+            ->toArray();
     }
 
     /**
      * Find a client by ID.
      */
-    public function find(int $id): ?Client
+    public function find(int $id): ?ClientDTO
     {
-        return Client::find($id);
+        $client = Client::find($id);
+
+        return $client ? ClientDTO::fromModel($client) : null;
+    }
+
+    /**
+     * Search clients by name, email, or company.
+     *
+     * @return array<ClientDTO>
+     */
+    public function search(string $query): array
+    {
+        return Client::where('name', 'like', "%{$query}%")
+            ->orWhere('email', 'like', "%{$query}%")
+            ->orWhere('company', 'like', "%{$query}%")
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Client $client) => ClientDTO::fromModel($client))
+            ->toArray();
     }
 
     /**
@@ -48,14 +73,18 @@ class ClientRepository
     }
 
     /**
-     * Search clients by name or email.
+     * Find a client model by ID (internal use only).
      */
-    public function search(string $query): Collection
+    public function findModel(int $id): ?Client
     {
-        return Client::where('name', 'like', "%{$query}%")
-            ->orWhere('email', 'like', "%{$query}%")
-            ->orWhere('company', 'like', "%{$query}%")
-            ->orderBy('name')
-            ->get();
+        return Client::find($id);
+    }
+
+    /**
+     * Get all client models (internal use only).
+     */
+    public function allModels(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Client::query()->orderBy('name')->get();
     }
 }
