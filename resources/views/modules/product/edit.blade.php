@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Modifier le produit</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Edit Product</h1>
 
         <x-shared::card>
             <form action="{{ route('product::update', $product->id) }}" method="POST">
@@ -13,7 +13,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-shared::input
                         name="name"
-                        label="Nom"
+                        label="Name"
                         :value="old('name', $product->name)"
                         required
                     />
@@ -27,7 +27,7 @@
                     <x-shared::input
                         type="number"
                         name="price"
-                        label="Prix"
+                        label="Price"
                         step="0.01"
                         min="0"
                         :value="old('price', $product->price)"
@@ -37,7 +37,7 @@
                     <x-shared::input
                         type="number"
                         name="tax_rate"
-                        label="Taux TVA (%)"
+                        label="Tax Rate (%)"
                         step="0.01"
                         min="0"
                         max="100"
@@ -46,8 +46,8 @@
 
                     <x-shared::input
                         name="unit"
-                        label="Unité"
-                        placeholder="ex: pièce, kg, m²"
+                        label="Unit"
+                        placeholder="e.g.: piece, kg, m²"
                         :value="old('unit', $product->unit)"
                     />
                 </div>
@@ -76,7 +76,7 @@
                             {{ old('is_active', $product->is_active) ? 'checked' : '' }}
                             class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                         >
-                        <span class="ml-2 text-sm text-gray-700">Produit actif</span>
+                        <span class="ml-2 text-sm text-gray-700">Active product</span>
                     </label>
                     @if(isset($errors) && $errors->has('is_active'))
                         <p class="mt-1 text-sm text-red-600">{{ $errors->first('is_active') }}</p>
@@ -85,10 +85,10 @@
 
                 <div class="mt-6 flex gap-4">
                     <x-shared::button type="submit" variant="primary">
-                        Enregistrer
+                        Save
                     </x-shared::button>
                     <a href="{{ route('product::show', $product->id) }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Annuler
+                        Cancel
                     </a>
                 </div>
             </form>

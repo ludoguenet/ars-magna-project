@@ -57,7 +57,7 @@ class InvoiceController
 
         return redirect()
             ->route('invoice::show', $invoice)
-            ->with('success', 'Facture créée avec succès');
+            ->with('success', 'Invoice created successfully');
     }
 
     /**
@@ -118,6 +118,6 @@ class InvoiceController
 
         return redirect()
             ->route('invoice::index')
-            ->with('success', 'Facture supprimée avec succès');
+            ->with('success', 'Invoice deleted successfully');
     }
 }

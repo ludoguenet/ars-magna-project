@@ -44,7 +44,7 @@ class ClientController
 
         return redirect()
             ->route('client::show', $client)
-            ->with('success', 'Client créé avec succès');
+            ->with('success', 'Client created successfully');
     }
 
     /**
@@ -90,7 +90,7 @@ class ClientController
 
         return redirect()
             ->route('client::show', $client)
-            ->with('success', 'Client modifié avec succès');
+            ->with('success', 'Client updated successfully');
     }
 
     /**
@@ -106,6 +106,6 @@ class ClientController
 
         return redirect()
             ->route('client::index')
-            ->with('success', 'Client supprimé avec succès');
+            ->with('success', 'Client deleted successfully');
     }
 }

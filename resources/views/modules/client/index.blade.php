@@ -5,7 +5,7 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-900">Clients</h1>
         <a href="{{ route('client::create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-            Nouveau client
+            New Client
         </a>
     </div>
 
@@ -15,16 +15,16 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Nom
+                            Name
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Entreprise
+                            Company
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Email
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Téléphone
+                            Phone
                         </th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
@@ -48,17 +48,17 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('client::show', $client->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                                    Voir
+                                    View
                                 </a>
                                 <a href="{{ route('client::edit', $client->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">
-                                    Modifier
+                                    Edit
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                Aucun client trouvé
+                                No clients found
                             </td>
                         </tr>
                     @endforelse

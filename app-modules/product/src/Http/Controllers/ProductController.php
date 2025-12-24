@@ -50,7 +50,7 @@ class ProductController
 
         return redirect()
             ->route('product::show', $product)
-            ->with('success', 'Produit créé avec succès');
+            ->with('success', 'Product created successfully');
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductController
 
         return redirect()
             ->route('product::show', $product)
-            ->with('success', 'Produit modifié avec succès');
+            ->with('success', 'Product updated successfully');
     }
 
     /**
@@ -118,6 +118,6 @@ class ProductController
 
         return redirect()
             ->route('product::index')
-            ->with('success', 'Produit supprimé avec succès');
+            ->with('success', 'Product deleted successfully');
     }
 }

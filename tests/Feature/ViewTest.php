@@ -15,7 +15,7 @@ describe('Layout Views', function () {
 
         $html = $view->render();
         expect($html)->toContain('Dashboard');
-        expect($html)->toContain('Factures');
+        expect($html)->toContain('Invoices');
     });
 
     it('renders welcome page without errors', function () {
@@ -67,7 +67,7 @@ describe('Client Views', function () {
         get(route('client::create'))
             ->assertSuccessful()
             ->assertViewIs('client::create')
-            ->assertSee('Nouveau client');
+            ->assertSee('New Client');
     });
 
     it('renders client edit view', function () {
@@ -76,7 +76,7 @@ describe('Client Views', function () {
         get(route('client::edit', $client->id))
             ->assertSuccessful()
             ->assertViewIs('client::edit')
-            ->assertSee('Modifier le client')
+            ->assertSee('Edit Client')
             ->assertSee($client->name);
     });
 
@@ -101,7 +101,7 @@ describe('Client Views', function () {
 
         get(route('client::show', $client->id))
             ->assertSuccessful()
-            ->assertSee('Factures')
+            ->assertSee('Invoices')
             ->assertSee($invoice->invoice_number);
     });
 });
@@ -116,7 +116,7 @@ describe('Invoice Views', function () {
         get(route('invoice::index'))
             ->assertSuccessful()
             ->assertViewIs('invoice::index')
-            ->assertSee('Factures')
+            ->assertSee('Invoices')
             ->assertSee($invoice->invoice_number);
     });
 
@@ -126,7 +126,7 @@ describe('Invoice Views', function () {
         get(route('invoice::create'))
             ->assertSuccessful()
             ->assertViewIs('invoice::create')
-            ->assertSee('Nouvelle facture')
+            ->assertSee('New Invoice')
             ->assertSee($client->name);
     });
 
@@ -139,7 +139,7 @@ describe('Invoice Views', function () {
         get(route('invoice::edit', $invoice->id))
             ->assertSuccessful()
             ->assertViewIs('invoice::edit')
-            ->assertSee('Modifier la facture');
+            ->assertSee('Edit Invoice');
     });
 
     it('renders invoice show view', function () {
@@ -179,7 +179,7 @@ describe('Product Views', function () {
         get(route('product::index'))
             ->assertSuccessful()
             ->assertViewIs('product::index')
-            ->assertSee('Produits')
+            ->assertSee('Products')
             ->assertSee($product->name);
     });
 
@@ -187,7 +187,7 @@ describe('Product Views', function () {
         get(route('product::create'))
             ->assertSuccessful()
             ->assertViewIs('product::create')
-            ->assertSee('Nouveau produit');
+            ->assertSee('New Product');
     });
 
     it('renders product edit view', function () {
@@ -196,7 +196,7 @@ describe('Product Views', function () {
         get(route('product::edit', $product->id))
             ->assertSuccessful()
             ->assertViewIs('product::edit')
-            ->assertSee('Modifier le produit')
+            ->assertSee('Edit Product')
             ->assertSee($product->name);
     });
 

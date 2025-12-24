@@ -97,59 +97,59 @@ Cela démarre à la fois le serveur PHP, la queue, les logs, et Vite en mode dé
 
 ### Workflow recommandé
 
-#### 1. Créer des Clients
+#### 1. Create Clients
 
-1. Cliquez sur **"Clients"** dans la navigation
-2. Cliquez sur **"Nouveau client"**
-3. Remplissez les informations :
-   - Nom (obligatoire)
-   - Email, téléphone, entreprise (optionnels)
-   - Adresse complète (optionnel)
-   - Notes (optionnel)
-4. Cliquez sur **"Créer"**
+1. Click on **"Clients"** in the navigation
+2. Click on **"New Client"**
+3. Fill in the information:
+   - Name (required)
+   - Email, phone, company (optional)
+   - Full address (optional)
+   - Notes (optional)
+4. Click on **"Create"**
 
-#### 2. Créer des Produits
+#### 2. Create Products
 
-1. Cliquez sur **"Produits"** dans la navigation
-2. Cliquez sur **"Nouveau produit"**
-3. Remplissez les informations :
-   - Nom (obligatoire)
-   - Prix (obligatoire)
-   - Taux de TVA (optionnel, par défaut 0%)
-   - SKU, description, unité (optionnels)
-4. Cliquez sur **"Créer"**
+1. Click on **"Products"** in the navigation
+2. Click on **"New Product"**
+3. Fill in the information:
+   - Name (required)
+   - Price (required)
+   - Tax rate (optional, default 0%)
+   - SKU, description, unit (optional)
+4. Click on **"Create"**
 
-#### 3. Créer des Factures
+#### 3. Create Invoices
 
-1. Cliquez sur **"Factures"** dans la navigation
-2. Cliquez sur **"Nouvelle facture"**
-3. Sélectionnez un client
-4. Ajoutez des articles :
+1. Click on **"Invoices"** in the navigation
+2. Click on **"New Invoice"**
+3. Select a client
+4. Add items:
    - Description
-   - Quantité
-   - Prix unitaire
-   - Taux de TVA (%)
-5. Cliquez sur **"+ Ajouter un article"** pour ajouter plus d'articles
-6. Optionnel : Ajoutez des notes et conditions
-7. Cliquez sur **"Créer la facture"**
+   - Quantity
+   - Unit price
+   - Tax rate (%)
+5. Click on **"+ Add Item"** to add more items
+6. Optional: Add notes and terms
+7. Click on **"Create"**
 
-La facture sera créée avec :
-- Un numéro de facture automatique
-- Calcul automatique des totaux (sous-total, TVA, total)
-- Statut "Draft" par défaut
+The invoice will be created with:
+- An automatic invoice number
+- Automatic calculation of totals (subtotal, tax, total)
+- "Draft" status by default
 
-#### 4. Consulter le Dashboard
+#### 4. View the Dashboard
 
-Le dashboard affiche :
-- Nombre total de clients, produits, factures
-- Chiffre d'affaires total (factures payées)
-- Factures en attente
-- Factures impayées
-- Liste des factures récentes
+The dashboard displays:
+- Total number of clients, products, invoices
+- Total revenue (paid invoices)
+- Pending invoices
+- Overdue invoices
+- List of recent invoices
 
-## 🔧 Commandes utiles
+## 🔧 Useful Commands
 
-### Voir toutes les routes disponibles
+### View all available routes
 
 ```bash
 php artisan route:list

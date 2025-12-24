@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Modifier la facture</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Edit Invoice</h1>
 
         <x-shared::card>
             <form action="{{ route('invoice::update', $invoice->id) }}" method="POST">
@@ -21,7 +21,7 @@
                             required
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
-                            <option value="">Sélectionner un client</option>
+                            <option value="">Select a client</option>
                             @foreach($clients as $client)
                                 <option value="{{ $client->id }}" {{ old('client_id', $invoice->client_id) == $client->id ? 'selected' : '' }}>
                                     {{ $client->name }}
@@ -36,7 +36,7 @@
                     <x-shared::input
                         type="date"
                         name="issued_at"
-                        label="Date d'émission"
+                        label="Issue Date"
                         :value="old('issued_at', $invoice->issued_at?->format('Y-m-d'))"
                         required
                         :error="isset($errors) ? $errors->first('issued_at') : null"
@@ -45,7 +45,7 @@
                     <x-shared::input
                         type="date"
                         name="due_at"
-                        label="Date d'échéance"
+                        label="Due Date"
                         :value="old('due_at', $invoice->due_at?->format('Y-m-d'))"
                         :error="isset($errors) ? $errors->first('due_at') : null"
                     />
@@ -68,7 +68,7 @@
 
                 <div class="mt-6">
                     <label for="terms" class="block text-sm font-medium text-gray-700 mb-1">
-                        Conditions
+                        Terms
                     </label>
                     <textarea
                         name="terms"
@@ -83,10 +83,10 @@
 
                 <div class="mt-6 flex gap-4">
                     <x-shared::button type="submit" variant="primary">
-                        Enregistrer
+                        Save
                     </x-shared::button>
                     <a href="{{ route('invoice::show', $invoice->id) }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Annuler
+                        Cancel
                     </a>
                 </div>
             </form>

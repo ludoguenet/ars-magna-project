@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Nouvelle facture</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">New Invoice</h1>
 
         <x-shared::card>
             <form action="{{ route('invoice::store') }}" method="POST">
@@ -20,7 +20,7 @@
                             required
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
-                            <option value="">Sélectionner un client</option>
+                            <option value="">Select a client</option>
                             @foreach($clients as $client)
                                 <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                                     {{ $client->name }}
@@ -35,7 +35,7 @@
                     <x-shared::input
                         type="date"
                         name="issued_at"
-                        label="Date d'émission"
+                        label="Issue Date"
                         :value="old('issued_at', now()->format('Y-m-d'))"
                         required
                         :error="isset($errors) ? $errors->first('issued_at') : null"
@@ -44,14 +44,14 @@
                     <x-shared::input
                         type="date"
                         name="due_at"
-                        label="Date d'échéance"
+                        label="Due Date"
                         :value="old('due_at')"
                         :error="isset($errors) ? $errors->first('due_at') : null"
                     />
                 </div>
 
                 <div class="mt-6">
-                    <h2 class="text-lg font-medium text-gray-900 mb-4">Articles</h2>
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">Items</h2>
                     <div id="items-container">
                         <div class="item-row border-b border-gray-200 pb-4 mb-4">
                             <div class="grid grid-cols-12 gap-4">
@@ -68,7 +68,7 @@
                                         type="number"
                                         step="0.01"
                                         name="items[0][quantity]"
-                                        label="Quantité"
+                                        label="Quantity"
                                         value="1"
                                         required
                                         :error="isset($errors) ? $errors->first('items.0.quantity') : null"
@@ -79,7 +79,7 @@
                                         type="number"
                                         step="0.01"
                                         name="items[0][unit_price]"
-                                        label="Prix unitaire"
+                                        label="Unit Price"
                                         required
                                         :error="isset($errors) ? $errors->first('items.0.unit_price') : null"
                                     />
@@ -89,21 +89,21 @@
                                         type="number"
                                         step="0.01"
                                         name="items[0][tax_rate]"
-                                        label="Taux TVA (%)"
+                                        label="Tax Rate (%)"
                                         value="0"
                                         :error="isset($errors) ? $errors->first('items.0.tax_rate') : null"
                                     />
                                 </div>
                                 <div class="col-span-1 flex items-end">
                                     <button type="button" class="remove-item text-red-600 hover:text-red-800" style="display: none;">
-                                        Supprimer
+                                        Remove
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button type="button" id="add-item" class="mt-2 text-blue-600 hover:text-blue-800">
-                        + Ajouter un article
+                        + Add Item
                     </button>
                 </div>
 
@@ -124,7 +124,7 @@
 
                 <div class="mt-6">
                     <label for="terms" class="block text-sm font-medium text-gray-700 mb-1">
-                        Conditions
+                        Terms
                     </label>
                     <textarea
                         name="terms"
@@ -139,10 +139,10 @@
 
                 <div class="mt-6 flex gap-4">
                     <x-shared::button type="submit" variant="primary">
-                        Créer
+                        Create
                     </x-shared::button>
                     <a href="{{ route('invoice::index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Annuler
+                        Cancel
                     </a>
                 </div>
             </form>

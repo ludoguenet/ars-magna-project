@@ -1,106 +1,106 @@
-# 🚀 Guide de Démarrage Rapide
+# 🚀 Quick Start Guide
 
-## Étapes pour utiliser l'application
+## Steps to use the application
 
-### 1. Vérifier que tout est installé
+### 1. Verify everything is installed
 
 ```bash
-# Vérifier que les dépendances sont installées
+# Verify that dependencies are installed
 composer install
 npm install
 ```
 
-### 2. Préparer la base de données
+### 2. Prepare the database
 
 ```bash
-# S'assurer que la base SQLite existe
+# Make sure the SQLite database exists
 touch database/database.sqlite
 chmod 664 database/database.sqlite
 
-# Exécuter les migrations
+# Run migrations
 php artisan migrate
 ```
 
-### 3. Nettoyer les caches
+### 3. Clear caches
 
 ```bash
 php artisan optimize:clear
 composer dump-autoload
 ```
 
-### 4. Compiler les assets
+### 4. Compile assets
 
-**Option A - Production (recommandé pour tester) :**
+**Option A - Production (recommended for testing):**
 ```bash
 npm run build
 ```
 
-**Option B - Développement (avec hot-reload) :**
+**Option B - Development (with hot-reload):**
 ```bash
 npm run dev
 ```
 
-### 5. Démarrer le serveur
+### 5. Start the server
 
-**Option A - Serveur simple :**
+**Option A - Simple server:**
 ```bash
 php artisan serve
 ```
 
-**Option B - Mode développement complet (serveur + queue + logs + Vite) :**
+**Option B - Full development mode (server + queue + logs + Vite):**
 ```bash
 composer run dev
 ```
 
-### 6. Accéder à l'application
+### 6. Access the application
 
-Ouvrez votre navigateur et allez sur : **http://localhost:8000**
+Open your browser and go to: **http://localhost:8000**
 
-Vous serez automatiquement redirigé vers le **Dashboard**.
+You will be automatically redirected to the **Dashboard**.
 
-## 🎯 Utilisation
+## 🎯 Usage
 
-### Workflow de base
+### Basic workflow
 
-1. **Créer des Clients** → Menu "Clients" → "Nouveau client"
-2. **Créer des Produits** → Menu "Produits" → "Nouveau produit"  
-3. **Créer des Factures** → Menu "Factures" → "Nouvelle facture"
+1. **Create Clients** → Menu "Clients" → "New Client"
+2. **Create Products** → Menu "Products" → "New Product"  
+3. **Create Invoices** → Menu "Invoices" → "New Invoice"
 
-### URLs principales
+### Main URLs
 
 - **Dashboard** : http://localhost:8000/dashboard
 - **Clients** : http://localhost:8000/clients
-- **Produits** : http://localhost:8000/products
-- **Factures** : http://localhost:8000/invoices
+- **Products** : http://localhost:8000/products
+- **Invoices** : http://localhost:8000/invoices
 
-## ⚠️ Si les routes ne fonctionnent pas
+## ⚠️ If routes don't work
 
-Si vous obtenez une erreur 404, essayez :
+If you get a 404 error, try:
 
 ```bash
-# Nettoyer tous les caches
+# Clear all caches
 php artisan optimize:clear
 php artisan route:clear
 php artisan config:clear
 php artisan view:clear
 
-# Régénérer l'autoloader
+# Regenerate autoloader
 composer dump-autoload
 
-# Redémarrer le serveur
+# Restart the server
 php artisan serve
 ```
 
-## 🐛 Dépannage
+## 🐛 Troubleshooting
 
-### Erreur "Class not found"
+### "Class not found" error
 
 ```bash
 composer dump-autoload
 php artisan optimize:clear
 ```
 
-### Les assets ne se chargent pas
+### Assets don't load
 
 ```bash
 npm run build
@@ -108,17 +108,17 @@ npm run build
 npm run dev
 ```
 
-### La base de données est verrouillée
+### Database is locked
 
 ```bash
 chmod 664 database/database.sqlite
 ```
 
-## 📝 Note importante
+## 📝 Important note
 
-Les routes peuvent ne pas apparaître dans `php artisan route:list` à cause d'un problème de casse dans l'autoloading, mais **l'application devrait fonctionner** quand même. Testez en accédant directement aux URLs dans votre navigateur.
+Routes may not appear in `php artisan route:list` due to a case sensitivity issue in autoloading, but **the application should still work**. Test by accessing the URLs directly in your browser.
 
-Si vous rencontrez des problèmes, vérifiez les logs :
+If you encounter problems, check the logs:
 ```bash
 tail -f storage/logs/laravel.log
 ```

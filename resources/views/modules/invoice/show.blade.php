@@ -7,13 +7,13 @@
             <h1 class="text-3xl font-bold text-gray-900">Facture {{ $invoice->invoice_number }}</h1>
             <div class="flex gap-2">
                 <a href="{{ route('invoice::edit', $invoice->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                    Modifier
+                    Edit
                 </a>
-                <form action="{{ route('invoice::destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette facture ?');">
+                <form action="{{ route('invoice::destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this invoice?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
-                        Supprimer
+                        Delete
                     </button>
                 </form>
             </div>
@@ -31,18 +31,18 @@
                 <div>
                     <h3 class="text-sm font-medium text-gray-500 mb-2">Dates</h3>
                     <p class="text-sm text-gray-900">
-                        Émission: {{ $invoice->issued_at?->format('d/m/Y') ?? '-' }}
+                        Issue Date: {{ $invoice->issued_at?->format('d/m/Y') ?? '-' }}
                     </p>
                     @if($invoice->due_at)
                         <p class="text-sm text-gray-900">
-                            Échéance: {{ $invoice->due_at->format('d/m/Y') }}
+                            Due Date: {{ $invoice->due_at->format('d/m/Y') }}
                         </p>
                     @endif
                 </div>
             </div>
 
             <div class="mb-6">
-                <h3 class="text-sm font-medium text-gray-500 mb-2">Statut</h3>
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Status</h3>
                 <x-invoice::invoice-status :status="$invoice->status" />
             </div>
 
@@ -51,9 +51,9 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantité</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prix unitaire</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">TVA</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tax</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
                         </tr>
                     </thead>
@@ -79,7 +79,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    Aucun article
+                                    No items
                                 </td>
                             </tr>
                         @endforelse
@@ -87,7 +87,7 @@
                     <tfoot class="bg-gray-50">
                         <tr>
                             <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                                Sous-total:
+                                Subtotal:
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
                                 {{ number_format($invoice->subtotal, 2, ',', ' ') }} €
@@ -96,7 +96,7 @@
                         @if($invoice->discount_amount > 0)
                             <tr>
                                 <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                                    Remise:
+                                    Discount:
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
                                     -{{ number_format($invoice->discount_amount, 2, ',', ' ') }} €
@@ -106,7 +106,7 @@
                         @if($invoice->tax_amount > 0)
                             <tr>
                                 <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                                    TVA:
+                                    Tax:
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
                                     {{ number_format($invoice->tax_amount, 2, ',', ' ') }} €
@@ -134,7 +134,7 @@
 
             @if($invoice->terms)
                 <div>
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Conditions</h3>
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">Terms</h3>
                     <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ $invoice->terms }}</p>
                 </div>
             @endif

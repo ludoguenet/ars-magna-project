@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Modifier le client</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Edit Client</h1>
 
         <x-shared::card>
             <form action="{{ route('client::update', $client->id) }}" method="POST">
@@ -13,7 +13,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-shared::input
                         name="name"
-                        label="Nom"
+                        label="Name"
                         :value="old('name', $client->name)"
                         required
                         :error="isset($errors) ? $errors->first('name') : null"
@@ -21,7 +21,7 @@
 
                     <x-shared::input
                         name="company"
-                        label="Entreprise"
+                        label="Company"
                         :value="old('company', $client->company)"
                         :error="isset($errors) ? $errors->first('company') : null"
                     />
@@ -37,14 +37,14 @@
                     <x-shared::input
                         type="tel"
                         name="phone"
-                        label="Téléphone"
+                        label="Phone"
                         :value="old('phone', $client->phone)"
                         :error="isset($errors) ? $errors->first('phone') : null"
                     />
 
                     <x-shared::input
                         name="vat_number"
-                        label="Numéro TVA"
+                        label="VAT Number"
                         :value="old('vat_number', $client->vat_number)"
                         :error="isset($errors) ? $errors->first('vat_number') : null"
                     />
@@ -53,7 +53,7 @@
                 <div class="mt-4">
                     <x-shared::input
                         name="address"
-                        label="Adresse"
+                        label="Address"
                         :value="old('address', $client->address)"
                         :error="isset($errors) ? $errors->first('address') : null"
                     />
@@ -62,21 +62,21 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                     <x-shared::input
                         name="postal_code"
-                        label="Code postal"
+                        label="Postal Code"
                         :value="old('postal_code', $client->postal_code)"
                         :error="isset($errors) ? $errors->first('postal_code') : null"
                     />
 
                     <x-shared::input
                         name="city"
-                        label="Ville"
+                        label="City"
                         :value="old('city', $client->city)"
                         :error="isset($errors) ? $errors->first('city') : null"
                     />
 
                     <x-shared::input
                         name="country"
-                        label="Pays"
+                        label="Country"
                         :value="old('country', $client->country)"
                         :error="isset($errors) ? $errors->first('country') : null"
                     />
@@ -99,10 +99,10 @@
 
                 <div class="mt-6 flex gap-4">
                     <x-shared::button type="submit" variant="primary">
-                        Enregistrer
+                        Save
                     </x-shared::button>
                     <a href="{{ route('client::show', $client->id) }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        Annuler
+                        Cancel
                     </a>
                 </div>
             </form>

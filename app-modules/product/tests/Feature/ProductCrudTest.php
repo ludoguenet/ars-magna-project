@@ -20,8 +20,8 @@ it('can display the product index page', function () {
     get(route('product::index'))
         ->assertSuccessful()
         ->assertViewIs('product::index')
-        ->assertSee('Produits')
-        ->assertSee('Nouveau produit');
+        ->assertSee('Products')
+        ->assertSee('New Product');
 });
 
 it('displays all products in the index', function () {
@@ -40,14 +40,14 @@ it('displays all products in the index', function () {
 it('displays empty state when no products exist', function () {
     get(route('product::index'))
         ->assertSuccessful()
-        ->assertSee('Aucun produit trouvé');
+        ->assertSee('No products found');
 });
 
 it('can display the product create page', function () {
     get(route('product::create'))
         ->assertSuccessful()
         ->assertViewIs('product::create')
-        ->assertSee('Nouveau produit');
+        ->assertSee('New Product');
 });
 
 it('can create a new product', function () {
@@ -63,7 +63,7 @@ it('can create a new product', function () {
 
     post(route('product::store'), $productData)
         ->assertRedirect()
-        ->assertSessionHas('success', 'Produit créé avec succès');
+        ->assertSessionHas('success', 'Product created successfully');
 
     $product = Product::where('name', 'Test Product')->first();
 
@@ -165,7 +165,7 @@ it('can display the product edit page', function () {
     get(route('product::edit', $product->id))
         ->assertSuccessful()
         ->assertViewIs('product::edit')
-        ->assertSee('Modifier le produit')
+        ->assertSee('Edit Product')
         ->assertSee('Test Product', false);
 });
 
@@ -192,7 +192,7 @@ it('can update an existing product', function () {
 
     put(route('product::update', $product->id), $updateData)
         ->assertRedirect()
-        ->assertSessionHas('success', 'Produit modifié avec succès');
+        ->assertSessionHas('success', 'Product updated successfully');
 
     $product->refresh();
 
@@ -239,7 +239,7 @@ it('can delete a product', function () {
 
     delete(route('product::destroy', $product->id))
         ->assertRedirect()
-        ->assertSessionHas('success', 'Produit supprimé avec succès');
+        ->assertSessionHas('success', 'Product deleted successfully');
 
     expect(Product::find($product->id))->toBeNull();
     expect(Product::withTrashed()->find($product->id))->not->toBeNull();
@@ -258,8 +258,8 @@ it('displays product status correctly in index', function () {
     $response = get(route('product::index'))
         ->assertSuccessful();
 
-    $response->assertSee('Actif');
-    $response->assertSee('Inactif');
+    $response->assertSee('Active');
+    $response->assertSee('Inactive');
 });
 
 it('displays product details correctly in show page', function () {
@@ -282,7 +282,7 @@ it('displays product details correctly in show page', function () {
     $response->assertSee('199,99 €');
     $response->assertSee('20,00%');
     $response->assertSee('piece');
-    $response->assertSee('Actif');
+    $response->assertSee('Active');
 });
 
 it('handles optional fields correctly in show page', function () {

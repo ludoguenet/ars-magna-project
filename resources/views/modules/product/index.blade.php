@@ -3,9 +3,9 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Produits</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Products</h1>
         <a href="{{ route('product::create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-            Nouveau produit
+            New Product
         </a>
     </div>
 
@@ -15,22 +15,22 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Nom
+                            Name
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             SKU
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Prix
+                            Price
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Taux TVA
+                            Tax Rate
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Unité
+                            Unit
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Statut
+                            Status
                         </th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
@@ -58,27 +58,27 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($product->is_active)
                                     <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                        Actif
+                                        Active
                                     </span>
                                 @else
                                     <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
-                                        Inactif
+                                        Inactive
                                     </span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('product::show', $product->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                                    Voir
+                                    View
                                 </a>
                                 <a href="{{ route('product::edit', $product->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">
-                                    Modifier
+                                    Edit
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                                Aucun produit trouvé
+                                No products found
                             </td>
                         </tr>
                     @endforelse
