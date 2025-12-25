@@ -290,8 +290,11 @@ it('can add items to an existing invoice and recalculate totals', function () {
 
     $invoice = $service->addItemToInvoice($invoice->fresh(), $newItem);
 
-    expect($invoice->fresh()->items)->toHaveCount(2);
-    expect($invoice->fresh()->total)->toBeGreaterThan(0);
+    // Refresh once to get the latest state with relationships
+    $invoice->refresh()->load('items');
+
+    expect($invoice->items)->toHaveCount(2);
+    expect($invoice->total)->toBeGreaterThan(0);
 });
 
 it('calculates invoice totals correctly with complex items', function () {

@@ -11,8 +11,9 @@ Complete guide to building scalable Laravel applications with Modular Monolith a
 5. [Scaling](./05-scaling.md) - How the architecture scales
 6. [Enums](./06-enums.md) - PHP Enums in modules
 7. [Exceptions](./07-exceptions.md) - Custom exceptions as public APIs
-8. [Creating a Module](./creating-a-module.md) - Step-by-step guide
-8. [Naming Conventions](./naming-conventions.md) - Code style guide
+8. [Testing Strategy](./08-testing-strategy.md) - Comprehensive testing approach
+9. [Creating a Module](./creating-a-module.md) - Step-by-step guide
+10. [Naming Conventions](./naming-conventions.md) - Code style guide
 
 ## Architecture Decision
 

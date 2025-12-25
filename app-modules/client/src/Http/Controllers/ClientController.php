@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Client\src\Http\Controllers;
 
 use AppModules\Client\src\Http\Requests\StoreClientRequest;

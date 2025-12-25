@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Payment\src\Jobs;
 
 use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;

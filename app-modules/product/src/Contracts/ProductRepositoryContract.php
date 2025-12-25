@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Product\src\Contracts;
 
 use AppModules\Product\src\DataTransferObjects\ProductDTO;

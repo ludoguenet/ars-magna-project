@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Reporting\src\Providers;
 
 use Illuminate\Support\Facades\Blade;

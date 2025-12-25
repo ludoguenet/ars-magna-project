@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Product\src\DataTransferObjects;
 
 use AppModules\Product\src\Models\Product;

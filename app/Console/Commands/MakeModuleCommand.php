@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -56,6 +58,7 @@ class MakeModuleCommand extends Command
             'src/Listeners',
             'src/Providers',
             'routes',
+            'resources/views',
             'tests/unit',
             'tests/feature',
             'database/migrations',

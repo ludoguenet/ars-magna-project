@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Dashboard\src\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +30,9 @@ class DashboardServiceProvider extends ServiceProvider
         // Load migrations
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        // Load views with namespace
-        $this->loadViewsFrom(resource_path('views/modules/dashboard'), 'dashboard');
+        // Load views with namespace from module directory
+        if (is_dir(__DIR__.'/../../resources/views')) {
+            $this->loadViewsFrom(__DIR__.'/../../resources/views', 'dashboard');
+        }
     }
 }

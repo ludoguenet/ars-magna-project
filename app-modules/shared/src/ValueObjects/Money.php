@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Shared\src\ValueObjects;
 
 final readonly class Money

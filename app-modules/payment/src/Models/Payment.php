@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Payment\src\Models;
 
 use AppModules\Invoice\src\Models\Invoice;

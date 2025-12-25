@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Invoice\src\Providers;
 
 use Illuminate\Support\Facades\Blade;
@@ -32,13 +34,17 @@ class InvoiceServiceProvider extends ServiceProvider
         // Load migrations
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        // Load views with namespace
-        $this->loadViewsFrom(resource_path('views/modules/invoice'), 'invoice');
+        // Load views with namespace from module directory
+        if (is_dir(__DIR__.'/../../resources/views')) {
+            $this->loadViewsFrom(__DIR__.'/../../resources/views', 'invoice');
+        }
 
-        // Register anonymous Blade components
-        Blade::anonymousComponentPath(
-            resource_path('views/components/invoice'),
-            'invoice'
-        );
+        // Register anonymous Blade components (if they exist in main resources)
+        if (is_dir(resource_path('views/components/invoice'))) {
+            Blade::anonymousComponentPath(
+                resource_path('views/components/invoice'),
+                'invoice'
+            );
+        }
     }
 }

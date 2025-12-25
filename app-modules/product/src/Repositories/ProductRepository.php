@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Product\src\Repositories;
 
 use AppModules\Product\src\Contracts\ProductRepositoryContract;

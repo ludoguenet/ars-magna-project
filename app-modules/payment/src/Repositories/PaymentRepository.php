@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Payment\src\Repositories;
 
 use AppModules\Payment\src\Models\Payment;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Invoice\src\Jobs;
 
 use Illuminate\Bus\Queueable;

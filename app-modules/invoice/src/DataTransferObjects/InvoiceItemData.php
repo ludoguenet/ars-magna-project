@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Invoice\src\DataTransferObjects;
 
 final readonly class InvoiceItemData

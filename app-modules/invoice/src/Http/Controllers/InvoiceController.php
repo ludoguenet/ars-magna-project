@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Invoice\src\Http\Controllers;
 
 use AppModules\Client\src\Contracts\ClientRepositoryContract;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Invoice\src\DataTransferObjects;
 
 use AppModules\Client\src\DataTransferObjects\ClientDTO;

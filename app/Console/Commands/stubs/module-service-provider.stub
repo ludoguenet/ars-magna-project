@@ -21,21 +21,25 @@ class {{ModuleName}}ServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Load routes
+        // Load routes with web middleware
         if (file_exists($routesPath = __DIR__.'/../../routes/web.php')) {
-            $this->loadRoutesFrom($routesPath);
+            Route::middleware('web')->group($routesPath);
         }
 
         // Load migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        // Load views with namespace
-        $this->loadViewsFrom(resource_path('views/modules/{{module_snake}}'), '{{module_snake}}');
+        // Load views with namespace from module directory
+        if (is_dir(__DIR__.'/../../resources/views')) {
+            $this->loadViewsFrom(__DIR__.'/../../resources/views', '{{moduleName}}');
+        }
 
-        // Register anonymous Blade components
-        Blade::anonymousComponentPath(
-            resource_path('views/components/{{module_snake}}'),
-            '{{module_snake}}'
-        );
+        // Register anonymous Blade components (if they exist in main resources)
+        if (is_dir(resource_path('views/components/{{moduleName}}'))) {
+            Blade::anonymousComponentPath(
+                resource_path('views/components/{{moduleName}}'),
+                '{{moduleName}}'
+            );
+        }
     }
 }

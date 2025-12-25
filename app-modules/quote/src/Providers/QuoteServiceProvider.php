@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Quote\src\Providers;
 
 use Illuminate\Support\Facades\Blade;

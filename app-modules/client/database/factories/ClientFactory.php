@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppModules\Client\database\factories;
 
 use AppModules\Client\src\Models\Client;
