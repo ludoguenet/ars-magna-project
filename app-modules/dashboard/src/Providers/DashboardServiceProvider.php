@@ -19,9 +19,10 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Load routes
+        // Load routes with web middleware
         if (file_exists($routesPath = __DIR__.'/../../routes/web.php')) {
-            $this->loadRoutesFrom($routesPath);
+            \Illuminate\Support\Facades\Route::middleware('web')
+                ->group($routesPath);
         }
 
         // Load migrations

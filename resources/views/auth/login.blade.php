@@ -12,7 +12,7 @@
                     </p>
                 </div>
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-6">
+                <form action="{{ route('authenticate') }}" method="POST" class="space-y-6">
                     @csrf
 
                     <x-shared::input

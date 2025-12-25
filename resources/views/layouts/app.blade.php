@@ -44,7 +44,7 @@
                 </div>
                 <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <div class="hidden md:flex items-center gap-4">
-                        <span class="text-sm text-[hsl(var(--color-muted-foreground))]">{{ auth()->user()->name }}</span>
+                        <span class="text-sm text-[hsl(var(--color-muted-foreground))]">{{ auth()->user()?->name ?? 'User' }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <x-shared::button variant="ghost" type="submit" class="text-sm">
