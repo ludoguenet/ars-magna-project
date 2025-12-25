@@ -23,9 +23,9 @@ final readonly class InvoiceData
     public static function fromRequest(Request $request): self
     {
         return new self(
-            clientId: $request->input('client_id'),
-            issuedAt: $request->has('issued_at') ? new \DateTime($request->input('issued_at')) : null,
-            dueAt: $request->has('due_at') ? new \DateTime($request->input('due_at')) : null,
+            clientId: $request->integer('client_id'),
+            issuedAt: $request->filled('issued_at') ? new \DateTime($request->input('issued_at')) : null,
+            dueAt: $request->filled('due_at') ? new \DateTime($request->input('due_at')) : null,
             notes: $request->input('notes'),
             terms: $request->input('terms'),
             shouldFinalize: $request->boolean('finalize', false),

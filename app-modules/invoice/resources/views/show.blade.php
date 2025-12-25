@@ -3,12 +3,42 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
+        @if(session('success'))
+            <x-shared::alert type="success" class="mb-6">
+                {{ session('success') }}
+            </x-shared::alert>
+        @endif
+
+        @if(session('error'))
+            <x-shared::alert type="error" class="mb-6">
+                {{ session('error') }}
+            </x-shared::alert>
+        @endif
+
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Facture {{ $invoice->invoiceNumber }}</h1>
             <div class="flex gap-2">
-                <a href="{{ route('invoice::edit', $invoice->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                    Edit
-                </a>
+                @if($invoice->status === \AppModules\Invoice\src\Enums\InvoiceStatus::DRAFT)
+                    <form action="{{ route('invoice::finalize', $invoice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to finalize this invoice? It will be sent to the client.');">
+                        @csrf
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                            Finalize & Send
+                        </button>
+                    </form>
+                @endif
+                @if($invoice->status->canBePaid())
+                    <form action="{{ route('invoice::mark-as-paid', $invoice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to mark this invoice as paid?');">
+                        @csrf
+                        <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700">
+                            Mark as Paid
+                        </button>
+                    </form>
+                @endif
+                @if($invoice->status === \AppModules\Invoice\src\Enums\InvoiceStatus::DRAFT)
+                    <a href="{{ route('invoice::edit', $invoice->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+                        Edit
+                    </a>
+                @endif
                 <form action="{{ route('invoice::destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this invoice?');">
                     @csrf
                     @method('DELETE')

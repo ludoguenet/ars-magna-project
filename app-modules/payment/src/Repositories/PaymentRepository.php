@@ -11,6 +11,8 @@ class PaymentRepository
 {
     /**
      * Get all payments.
+     *
+     * @return Collection<int, Payment>
      */
     public function all(): Collection
     {
@@ -51,6 +53,8 @@ class PaymentRepository
 
     /**
      * Get payments for an invoice.
+     *
+     * @return Collection<int, Payment>
      */
     public function getByInvoiceId(int $invoiceId): Collection
     {
@@ -59,6 +63,8 @@ class PaymentRepository
 
     /**
      * Get pending payments.
+     *
+     * @return Collection<int, Payment>
      */
     public function getPending(): Collection
     {

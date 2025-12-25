@@ -176,25 +176,16 @@ it('can create a complete invoice using the service', function () {
         ->status->toBe(InvoiceStatus::DRAFT)
         ->items->toHaveCount(2);
 
-    // Verify totals are calculated
-    $invoice->refresh()->load('items');
-    // Items should have line_total calculated
-    $hasValidItems = false;
-    foreach ($invoice->items as $item) {
-        if ($item->line_total > 0) {
-            $hasValidItems = true;
-            break;
-        }
-    }
-    // If items have line_total, totals should be calculated
-    if ($hasValidItems) {
-        // Recalculate totals manually to ensure they're set
-        $calculateAction = app(\AppModules\Invoice\src\Actions\CalculateInvoiceTotalsAction::class);
-        $invoice = $calculateAction->handle($invoice);
-        $invoice->refresh();
-        expect($invoice->total)->toBeGreaterThan(0);
-        expect($invoice->subtotal)->toBeGreaterThan(0);
-    }
+    // Verify totals are calculated automatically
+    // Item 1: 3 * 75 = 225, tax = 225 * 0.21 = 47.25, total = 272.25
+    // Item 2: (2 * 100) - 10 = 190, tax = 190 * 0.10 = 19, total = 209
+    // Subtotal: 225 + 190 = 415
+    // Tax: 47.25 + 19 = 66.25
+    // Total: 415 + 66.25 = 481.25
+
+    expect((float) $invoice->subtotal)->toBe(415.0);
+    expect((float) $invoice->tax_amount)->toBe(66.25);
+    expect((float) $invoice->total)->toBe(481.25);
 
     Event::assertDispatched(InvoiceCreated::class);
 });
@@ -373,18 +364,12 @@ it('handles invoice workflow through HTTP requests', function () {
         ->status->toBe(InvoiceStatus::DRAFT)
         ->items->toHaveCount(1);
 
-    // Verify totals are calculated - refresh to get latest data
-    $invoice->refresh()->load('items');
-    if ($invoice->items->count() > 0) {
-        $firstItem = $invoice->items->first();
-        if ($firstItem && $firstItem->line_total > 0) {
-            // Recalculate to ensure totals are set
-            $calculateAction = app(\AppModules\Invoice\src\Actions\CalculateInvoiceTotalsAction::class);
-            $invoice = $calculateAction->handle($invoice);
-            $invoice->refresh();
-            expect($invoice->total)->toBeGreaterThan(0);
-        }
-    }
+    // Verify totals are calculated automatically
+    // Item: 2 * 100 = 200, tax = 200 * 0.20 = 40, total = 240
+    $invoice = $invoice->fresh();
+    expect((float) $invoice->subtotal)->toBe(200.0);
+    expect((float) $invoice->tax_amount)->toBe(40.0);
+    expect((float) $invoice->total)->toBe(240.0);
 
     Event::assertDispatched(InvoiceCreated::class);
 });

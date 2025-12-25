@@ -57,8 +57,29 @@
                     <div>
                         <h2 class="text-lg font-semibold leading-none tracking-tight mb-4">Items</h2>
                         <div id="items-container" class="space-y-4">
-                            <div class="item-row rounded-lg border border-[hsl(var(--color-border))] p-4">
+                            <div class="item-row rounded-lg border border-[hsl(var(--color-border))] p-4" data-index="0">
                                 <div class="grid grid-cols-12 gap-4">
+                                    <div class="col-span-12 mb-2">
+                                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                            Product (Optional)
+                                        </label>
+                                        <select
+                                            name="items[0][product_id]"
+                                            class="product-select flex h-10 w-full rounded-lg border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] px-3 py-2 text-sm ring-offset-[hsl(var(--color-background))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-ring))] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            <option value="">-- Select a product or enter custom description --</option>
+                                            @foreach($products as $product)
+                                                <option 
+                                                    value="{{ $product->id }}"
+                                                    data-description="{{ $product->name }}"
+                                                    data-price="{{ $product->price }}"
+                                                    data-tax-rate="{{ $product->taxRate }}"
+                                                >
+                                                    {{ $product->name }} - {{ number_format($product->price, 2, ',', ' ') }} €
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-span-5">
                                         <x-shared::input
                                             name="items[0][description]"
@@ -159,17 +180,65 @@
 
 <script>
     let itemIndex = 1;
+    
+    // Handle product selection
+    function handleProductSelect(selectElement) {
+        const row = selectElement.closest('.item-row');
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        
+        if (selectedOption.value) {
+            const description = selectedOption.dataset.description;
+            const price = selectedOption.dataset.price;
+            const taxRate = selectedOption.dataset.taxRate;
+            
+            // Fill in the fields
+            row.querySelector('input[name*="[description]"]').value = description;
+            row.querySelector('input[name*="[unit_price]"]').value = price;
+            row.querySelector('input[name*="[tax_rate]"]').value = taxRate;
+        }
+    }
+    
+    // Add event listeners to existing product selects
+    document.querySelectorAll('.product-select').forEach(select => {
+        select.addEventListener('change', function() {
+            handleProductSelect(this);
+        });
+    });
+    
     document.getElementById('add-item').addEventListener('click', function() {
         const container = document.getElementById('items-container');
         const newItem = container.querySelector('.item-row').cloneNode(true);
         
-        // Update input names
+        newItem.setAttribute('data-index', itemIndex);
+        
+        // Update select names
+        newItem.querySelectorAll('select').forEach(select => {
+            const name = select.getAttribute('name');
+            if (name) {
+                select.setAttribute('name', name.replace(/\[0\]/, `[${itemIndex}]`));
+                select.selectedIndex = 0;
+            }
+        });
+        
+        // Update input names and clear values
         newItem.querySelectorAll('input').forEach(input => {
             const name = input.getAttribute('name');
             if (name) {
                 input.setAttribute('name', name.replace(/\[0\]/, `[${itemIndex}]`));
-                input.value = '';
+                if (name.includes('quantity')) {
+                    input.value = '1';
+                } else if (name.includes('tax_rate')) {
+                    input.value = '0';
+                } else {
+                    input.value = '';
+                }
             }
+        });
+        
+        // Add product select event listener
+        const productSelect = newItem.querySelector('.product-select');
+        productSelect.addEventListener('change', function() {
+            handleProductSelect(this);
         });
         
         // Show remove button

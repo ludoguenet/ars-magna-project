@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use AppModules\Product\src\DataTransferObjects\ProductDTO;
 use AppModules\Product\src\Models\Product;
-use AppModules\Product\src\Services\ProductService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -116,12 +116,13 @@ class InvoiceRepository implements InvoiceRepositoryContract
     }
 
     /**
-     * Get the last invoice for a given year.
+     * Get the last invoice for a given year and prefix.
      */
-    public function getLastInvoiceForYear(int $year): ?Invoice
+    public function getLastInvoiceForYear(int $year, string $prefix = 'FAC'): ?Invoice
     {
-        return Invoice::whereYear('created_at', $year)
-            ->orderBy('id', 'desc')
+        return Invoice::withTrashed()
+            ->where('invoice_number', 'LIKE', "{$prefix}-{$year}-%")
+            ->orderByRaw('CAST(SUBSTR(invoice_number, LENGTH(invoice_number) - 3) AS INTEGER) DESC')
             ->first();
     }
 

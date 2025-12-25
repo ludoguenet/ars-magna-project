@@ -36,6 +36,7 @@ class InvoiceService
                 $this->addItem->handle($invoice, InvoiceItemData::from($itemData));
             }
 
+            $invoice->load('items');
             $this->calculateTotals->handle($invoice);
 
             if ($invoiceData->shouldFinalize) {
@@ -54,6 +55,44 @@ class InvoiceService
         return DB::transaction(function () use ($invoice, $itemData) {
             $this->addItem->handle($invoice, $itemData);
             $this->calculateTotals->handle($invoice);
+
+            return $invoice->fresh();
+        });
+    }
+
+    /**
+     * Update a complete invoice with items.
+     */
+    public function updateCompleteInvoice(
+        Invoice $invoice,
+        InvoiceData $invoiceData,
+        array $items
+    ): Invoice {
+        return DB::transaction(function () use ($invoice, $invoiceData, $items) {
+            // Update invoice data
+            $invoice->update([
+                'client_id' => $invoiceData->clientId,
+                'issued_at' => $invoiceData->issuedAt ?? $invoice->issued_at,
+                'due_at' => $invoiceData->dueAt,
+                'notes' => $invoiceData->notes,
+                'terms' => $invoiceData->terms,
+            ]);
+
+            // Delete existing items
+            $invoice->items()->delete();
+
+            // Add new items
+            foreach ($items as $itemData) {
+                $this->addItem->handle($invoice, InvoiceItemData::from($itemData));
+            }
+
+            // Recalculate totals
+            $invoice->load('items');
+            $this->calculateTotals->handle($invoice);
+
+            if ($invoiceData->shouldFinalize) {
+                $invoice = $this->finalize->handle($invoice);
+            }
 
             return $invoice->fresh();
         });

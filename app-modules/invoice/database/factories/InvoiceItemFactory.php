@@ -25,10 +25,6 @@ class InvoiceItemFactory extends Factory
     {
         $unitPrice = fake()->randomFloat(2, 10, 1000);
         $quantity = fake()->randomFloat(2, 1, 10);
-        $discountAmount = fake()->optional(0.3, 0)->randomFloat(2, 0, $unitPrice * $quantity * 0.2);
-        $taxRate = fake()->randomFloat(2, 0, 25);
-        $subtotal = ($unitPrice * $quantity) - $discountAmount;
-        $lineTotal = $subtotal + ($subtotal * $taxRate / 100);
 
         return [
             'invoice_id' => Invoice::factory(),
@@ -36,9 +32,17 @@ class InvoiceItemFactory extends Factory
             'description' => fake()->sentence(),
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
-            'tax_rate' => $taxRate,
-            'discount_amount' => $discountAmount,
-            'line_total' => $lineTotal,
+            'tax_rate' => fake()->randomFloat(2, 0, 25),
+            'discount_amount' => function (array $attributes) {
+                $subtotal = $attributes['unit_price'] * $attributes['quantity'];
+
+                return fake()->optional(0.3, 0)->randomFloat(2, 0, $subtotal * 0.2);
+            },
+            'line_total' => function (array $attributes) {
+                $subtotal = ($attributes['unit_price'] * $attributes['quantity']) - $attributes['discount_amount'];
+
+                return $subtotal + ($subtotal * $attributes['tax_rate'] / 100);
+            },
         ];
     }
 }

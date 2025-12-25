@@ -21,7 +21,7 @@ class GenerateInvoiceNumberAction
         $prefix = config('invoice.number_prefix', 'FAC');
 
         // Get the last invoice number for this year
-        $lastInvoice = $this->repository->getLastInvoiceForYear($year);
+        $lastInvoice = $this->repository->getLastInvoiceForYear($year, $prefix);
 
         if ($lastInvoice && preg_match('/\d+$/', $lastInvoice->invoice_number, $matches)) {
             $nextNumber = (int) $matches[0] + 1;

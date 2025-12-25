@@ -10,5 +10,7 @@ Route::middleware('auth')->prefix('invoices')->name('invoice::')->group(function
     Route::get('/{id}', [InvoiceController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [InvoiceController::class, 'edit'])->name('edit');
     Route::put('/{id}', [InvoiceController::class, 'update'])->name('update');
+    Route::post('/{id}/finalize', [InvoiceController::class, 'finalize'])->name('finalize');
+    Route::post('/{id}/mark-as-paid', [InvoiceController::class, 'markAsPaid'])->name('mark-as-paid');
     Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('destroy');
 });

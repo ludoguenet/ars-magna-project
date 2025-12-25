@@ -51,4 +51,9 @@ interface InvoiceRepositoryContract
      * Delete an invoice by ID.
      */
     public function deleteById(int $id): bool;
+
+    /**
+     * Find an invoice model by ID (for internal operations).
+     */
+    public function findModel(int $id): ?\AppModules\Invoice\src\Models\Invoice;
 }

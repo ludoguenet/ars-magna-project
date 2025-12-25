@@ -64,3 +64,28 @@ it('pads invoice numbers correctly', function () {
     // Should have format like YYYY-00001 or similar
     expect(strlen($invoiceNumber))->toBeGreaterThanOrEqual(10);
 });
+
+it('generates unique invoice numbers considering soft-deleted invoices', function () {
+    $client = Client::factory()->create();
+
+    // Create and soft-delete an invoice with FAC-YYYY-0001
+    $deletedInvoice = Invoice::factory()->create([
+        'client_id' => $client->id,
+    ]);
+    $deletedInvoice->delete();
+
+    // Generate a new invoice number
+    $action = app(GenerateInvoiceNumberAction::class);
+    $newNumber = $action->handle();
+
+    // The new number should be different from the soft-deleted one
+    expect($newNumber)->not->toBe($deletedInvoice->invoice_number);
+
+    // Should be able to create a new invoice with the generated number without constraint violation
+    $newInvoice = Invoice::factory()->create([
+        'client_id' => $client->id,
+        'invoice_number' => $newNumber,
+    ]);
+
+    expect($newInvoice->invoice_number)->toBe($newNumber);
+});

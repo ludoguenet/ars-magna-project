@@ -21,7 +21,7 @@ final readonly class InvoiceItemData
     public static function from(array $data): self
     {
         return new self(
-            productId: $data['product_id'] ?? null,
+            productId: isset($data['product_id']) && $data['product_id'] !== '' ? (int) $data['product_id'] : null,
             description: $data['description'],
             quantity: (float) ($data['quantity'] ?? 1),
             unitPrice: (float) ($data['unit_price'] ?? 0),

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use AppModules\Client\src\DataTransferObjects\ClientDTO;
 use AppModules\Client\src\Models\Client;
-use AppModules\Client\src\Services\ClientService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
