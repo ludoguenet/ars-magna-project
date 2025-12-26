@@ -30,7 +30,8 @@ class MakeModuleServiceCommand extends MakeModuleActionCommand
     {
         $moduleName = Str::studly($this->argument('module'));
         $serviceName = Str::studly($this->argument('name'));
-        $servicePath = base_path("app-modules/{$moduleName}/domain/services/{$serviceName}.php");
+        $moduleDir = strtolower($this->argument('module'));
+        $servicePath = base_path("app-modules/{$moduleDir}/src/Services/{$serviceName}.php");
 
         if (File::exists($servicePath)) {
             $this->error("Service {$serviceName} already exists!");

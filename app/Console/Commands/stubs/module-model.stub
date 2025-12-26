@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AppModules\{{ModuleName}}\src\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ModelName}} extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        //
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            //
+        ];
+    }
+}

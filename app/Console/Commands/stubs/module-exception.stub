@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AppModules\{{ModuleName}}\src\Exceptions;
+
+use Exception;
+
+class {{ExceptionName}} extends Exception
+{
+    //
+}

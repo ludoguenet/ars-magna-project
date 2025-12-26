@@ -1,6 +1,8 @@
 <?php
 
-namespace AppModules\{{ModuleName}}\domain\services;
+declare(strict_types=1);
+
+namespace AppModules\{{ModuleName}}\src\Services;
 
 class {{ServiceName}}
 {

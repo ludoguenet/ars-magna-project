@@ -214,29 +214,154 @@ app-modules/Invoice/tests/
 
 ## 🚀 Installation
 
-1. Cloner le projet
-2. Installer les dépendances :
+### Prérequis
+
+- PHP 8.5.1 ou supérieur
+- Composer
+- Node.js et npm
+
+### Étapes d'installation
+
+1. **Cloner le projet**
+   ```bash
+   git clone <repository-url>
+   cd big-project
+   ```
+
+2. **Installer les dépendances**
    ```bash
    composer install
    npm install
    ```
-3. Configurer l'environnement :
+
+3. **Configurer l'environnement**
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-4. Lancer les migrations :
+
+4. **Configurer la base de données**
+   
+   Pour SQLite (par défaut) :
+   ```bash
+   touch database/database.sqlite
+   chmod 664 database/database.sqlite
+   ```
+   
+   Ou configurez votre base de données dans `.env` :
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
+
+5. **Exécuter les migrations**
    ```bash
    php artisan migrate
    ```
-5. Démarrer le serveur :
+
+6. **Compiler les assets**
+   
+   Pour le développement (avec hot-reload) :
    ```bash
-   php artisan serve
    npm run dev
    ```
+   
+   Pour la production :
+   ```bash
+   npm run build
+   ```
+
+7. **Démarrer le serveur**
+   
+   Mode simple :
+   ```bash
+   php artisan serve
+   ```
+   
+   Mode développement complet (serveur + queue + logs + Vite) :
+   ```bash
+   composer run dev
+   ```
+
+8. **Accéder à l'application**
+   
+   Ouvrez votre navigateur et allez sur : **http://localhost:8000**
+
+## 🎯 Utilisation
+
+### Workflow de base
+
+1. **Créer des Clients** → Menu "Clients" → "New Client"
+2. **Créer des Produits** → Menu "Products" → "New Product"
+3. **Créer des Factures** → Menu "Invoices" → "New Invoice"
+
+### URLs principales
+
+- **Dashboard** : `/dashboard`
+- **Clients** : `/clients`
+- **Products** : `/products`
+- **Invoices** : `/invoices`
+- **Notifications** : `/notifications`
+
+## 🔧 Commandes utiles
+
+### Voir toutes les routes
+```bash
+php artisan route:list
+```
+
+### Formater le code
+```bash
+vendor/bin/pint
+```
+
+### Lancer les tests
+```bash
+php artisan test
+```
+
+### Réinitialiser la base de données (⚠️ supprime toutes les données)
+```bash
+php artisan migrate:fresh
+```
+
+### Nettoyer les caches
+```bash
+php artisan optimize:clear
+composer dump-autoload
+```
+
+## 🐛 Dépannage
+
+### Erreur "Class not found"
+```bash
+composer dump-autoload
+php artisan optimize:clear
+```
+
+### Les assets ne se chargent pas
+```bash
+npm run build
+# ou
+npm run dev
+```
+
+### Base de données SQLite verrouillée
+```bash
+chmod 664 database/database.sqlite
+```
+
+### Les routes ne fonctionnent pas
+```bash
+php artisan optimize:clear
+php artisan route:clear
+composer dump-autoload
+```
 
 ## 📄 Licence
 
 MIT
-
-# ars-magna-project

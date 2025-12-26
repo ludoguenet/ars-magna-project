@@ -44,6 +44,9 @@
                 </div>
                 <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <div class="hidden md:flex items-center gap-4">
+                        @auth
+                            <x-notification::notification-dropdown :notifications="$unreadNotifications ?? collect()" :unreadCount="$unreadNotificationCount ?? 0" />
+                        @endauth
                         <span class="text-sm text-[hsl(var(--color-muted-foreground))]">{{ auth()->user()?->name ?? 'User' }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
@@ -75,6 +78,14 @@
                     <a href="{{ route('product::index') }}" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors {{ request()->routeIs('product::*') ? 'bg-[hsl(var(--color-accent))] text-[hsl(var(--color-foreground))]' : 'text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-accent))] hover:text-[hsl(var(--color-foreground))]' }}">
                         Products
                     </a>
+                    @auth
+                        <a href="{{ route('notification::index') }}" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors {{ request()->routeIs('notification::*') ? 'bg-[hsl(var(--color-accent))] text-[hsl(var(--color-foreground))]' : 'text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-accent))] hover:text-[hsl(var(--color-foreground))]' }}">
+                            Notifications
+                            @if(isset($unreadNotificationCount) && $unreadNotificationCount > 0)
+                                <x-notification::notification-badge :count="$unreadNotificationCount" />
+                            @endif
+                        </a>
+                    @endauth
                     <form action="{{ route('logout') }}" method="POST" class="px-3 py-2">
                         @csrf
                         <button type="submit" class="w-full text-left text-base font-medium text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-accent))] hover:text-[hsl(var(--color-foreground))] rounded-lg px-3 py-2 transition-colors">

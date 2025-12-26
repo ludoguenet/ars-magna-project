@@ -40,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // strict mode
+        \Illuminate\Database\Eloquent\Model::shouldBeStrict();
+        \Illuminate\Database\Eloquent\Model::unguard();
+
         // Ensure $errors is always available in views
         View::share('errors', session()->get('errors') ?? new ViewErrorBag);
 

@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AppModules\{{ModuleName}}\src\DataTransferObjects;
+
+final readonly class {{DtoName}}
+{
+    public function __construct(
+        //
+    ) {}
+}

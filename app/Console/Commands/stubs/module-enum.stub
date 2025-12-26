@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AppModules\{{ModuleName}}\src\Enums;
+
+enum {{EnumName}}: string
+{
+    case EXAMPLE = 'example';
+
+    /**
+     * Get the label for display.
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            self::EXAMPLE => 'Example',
+        };
+    }
+}

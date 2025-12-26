@@ -1,8 +1,10 @@
 <?php
 
-namespace AppModules\{{ModuleName}}\infrastructure\repositories;
+declare(strict_types=1);
 
-use AppModules\{{ModuleName}}\domain\models\{{ModelName}};
+namespace AppModules\{{ModuleName}}\src\Repositories;
+
+use AppModules\{{ModuleName}}\src\Models\{{ModelName}};
 use Illuminate\Database\Eloquent\Collection;
 
 class {{RepositoryName}}
@@ -34,16 +36,16 @@ class {{RepositoryName}}
     /**
      * Update a record.
      */
-    public function update({{ModelName}} ${{modelName}}, array $data): bool
+    public function update({{ModelName}} $model, array $data): bool
     {
-        return ${{modelName}}->update($data);
+        return $model->update($data);
     }
 
     /**
      * Delete a record.
      */
-    public function delete({{ModelName}} ${{modelName}}): bool
+    public function delete({{ModelName}} $model): bool
     {
-        return ${{modelName}}->delete();
+        return $model->delete();
     }
 }

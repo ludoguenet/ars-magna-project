@@ -30,7 +30,8 @@ class MakeModuleRepositoryCommand extends MakeModuleActionCommand
     {
         $moduleName = Str::studly($this->argument('module'));
         $repositoryName = Str::studly($this->argument('name'));
-        $repositoryPath = base_path("app-modules/{$moduleName}/infrastructure/repositories/{$repositoryName}.php");
+        $moduleDir = strtolower($this->argument('module'));
+        $repositoryPath = base_path("app-modules/{$moduleDir}/src/Repositories/{$repositoryName}.php");
 
         if (File::exists($repositoryPath)) {
             $this->error("Repository {$repositoryName} already exists!");

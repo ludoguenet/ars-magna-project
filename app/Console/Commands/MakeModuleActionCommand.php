@@ -31,7 +31,8 @@ class MakeModuleActionCommand extends Command
     {
         $moduleName = Str::studly($this->argument('module'));
         $actionName = Str::studly($this->argument('name'));
-        $actionPath = base_path("app-modules/{$moduleName}/domain/actions/{$actionName}.php");
+        $moduleDir = strtolower($this->argument('module'));
+        $actionPath = base_path("app-modules/{$moduleDir}/src/Actions/{$actionName}.php");
 
         if (File::exists($actionPath)) {
             $this->error("Action {$actionName} already exists!");
