@@ -12,6 +12,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $title
+ * @property string $type
+ * @property string $message
+ * @property array<string, mixed>|null $data
+ * @property \Illuminate\Support\Carbon|null $read_at
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property-read User $user
+ *
+ * @method static Builder<static> unread()
+ * @method static Builder<static> read()
+ * @method static Builder<static> byType(string $type)
+ */
 class Notification extends Model
 {
     use HasFactory;

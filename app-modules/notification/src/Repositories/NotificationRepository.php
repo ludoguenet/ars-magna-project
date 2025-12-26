@@ -46,11 +46,13 @@ class NotificationRepository implements NotificationRepositoryContract
      */
     public function getUnreadForUser(int $userId): Collection
     {
-        return Notification::query()
-            ->where('user_id', $userId)
-            ->unread()
-            ->latest()
-            ->get();
+        /** @phpstan-var \Illuminate\Database\Eloquent\Builder<Notification> $query */
+        $query = Notification::query()
+            ->where('user_id', $userId);
+        /** @phpstan-ignore-next-line */
+        $query->unread();
+
+        return $query->latest()->get();
     }
 
     /**
@@ -87,9 +89,12 @@ class NotificationRepository implements NotificationRepositoryContract
      */
     public function getUnreadCount(int $userId): int
     {
-        return Notification::query()
-            ->where('user_id', $userId)
-            ->unread()
-            ->count();
+        /** @phpstan-var \Illuminate\Database\Eloquent\Builder<Notification> $query */
+        $query = Notification::query()
+            ->where('user_id', $userId);
+        /** @phpstan-ignore-next-line */
+        $query->unread();
+
+        return $query->count();
     }
 }
