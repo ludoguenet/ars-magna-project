@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AppModules\Invoice\src\Actions;
 
-use AppModules\Invoice\src\DataTransferObjects\InvoiceItemData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceItemDTO;
 use AppModules\Invoice\src\Models\Invoice;
 use AppModules\Invoice\src\Models\InvoiceItem;
 use AppModules\Shared\src\ValueObjects\Money;
@@ -14,7 +14,7 @@ class AddInvoiceItemAction
     /**
      * Add an item to an invoice.
      */
-    public function handle(Invoice $invoice, InvoiceItemData $itemData): InvoiceItem
+    public function handle(Invoice $invoice, InvoiceItemDTO $itemData): InvoiceItem
     {
         $lineTotal = $this->calculateLineTotal($itemData);
 
@@ -35,7 +35,7 @@ class AddInvoiceItemAction
     /**
      * Calculate the line total for an item.
      */
-    private function calculateLineTotal(InvoiceItemData $itemData): Money
+    private function calculateLineTotal(InvoiceItemDTO $itemData): Money
     {
         $subtotal = Money::fromDecimal($itemData->unitPrice)
             ->multiply($itemData->quantity);

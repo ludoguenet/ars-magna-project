@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace AppModules\Notification\src\Actions;
 
-use AppModules\Notification\src\DataTransferObjects\NotificationData;
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
+use AppModules\Notification\src\DataTransferObjects\NotificationDTO;
 use AppModules\Notification\src\Models\Notification;
-use AppModules\Notification\src\Repositories\NotificationRepository;
 
 class CreateNotificationAction
 {
     public function __construct(
-        private NotificationRepository $repository
+        private NotificationRepositoryContract $repository
     ) {}
 
     /**
      * Execute the action.
      */
-    public function handle(NotificationData $data): Notification
+    public function handle(NotificationDTO $data): Notification
     {
         return $this->repository->create([
             'user_id' => $data->userId,

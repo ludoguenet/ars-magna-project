@@ -8,15 +8,15 @@ use AppModules\Notification\src\Actions\CreateNotificationAction;
 use AppModules\Notification\src\Actions\DeleteNotificationAction;
 use AppModules\Notification\src\Actions\MarkAllNotificationsAsReadAction;
 use AppModules\Notification\src\Actions\MarkNotificationAsReadAction;
-use AppModules\Notification\src\DataTransferObjects\NotificationData;
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
+use AppModules\Notification\src\DataTransferObjects\NotificationDTO;
 use AppModules\Notification\src\Models\Notification;
-use AppModules\Notification\src\Repositories\NotificationRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class NotificationService
 {
     public function __construct(
-        private NotificationRepository $repository,
+        private NotificationRepositoryContract $repository,
         private CreateNotificationAction $createNotificationAction,
         private MarkNotificationAsReadAction $markAsReadAction,
         private MarkAllNotificationsAsReadAction $markAllAsReadAction,
@@ -26,7 +26,7 @@ class NotificationService
     /**
      * Send a notification.
      */
-    public function send(NotificationData $data): Notification
+    public function send(NotificationDTO $data): Notification
     {
         return $this->createNotificationAction->handle($data);
     }

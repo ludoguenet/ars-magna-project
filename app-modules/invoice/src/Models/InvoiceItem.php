@@ -37,17 +37,6 @@ class InvoiceItem extends Model
         return InvoiceItemFactory::new();
     }
 
-    protected $fillable = [
-        'invoice_id',
-        'product_id',
-        'description',
-        'quantity',
-        'unit_price',
-        'tax_rate',
-        'discount_amount',
-        'line_total',
-    ];
-
     protected $casts = [
         'quantity' => 'decimal:2',
         'unit_price' => 'decimal:2',

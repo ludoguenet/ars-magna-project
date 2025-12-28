@@ -56,4 +56,14 @@ interface InvoiceRepositoryContract
      * Find an invoice model by ID (for internal operations).
      */
     public function findModel(int $id): ?\AppModules\Invoice\src\Models\Invoice;
+
+    /**
+     * Create a new invoice.
+     */
+    public function create(array $data): \AppModules\Invoice\src\Models\Invoice;
+
+    /**
+     * Get the last invoice for a given year and prefix.
+     */
+    public function getLastInvoiceForYear(int $year, string $prefix = 'FAC'): ?\AppModules\Invoice\src\Models\Invoice;
 }

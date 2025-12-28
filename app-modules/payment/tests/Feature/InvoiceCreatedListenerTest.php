@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use AppModules\Client\src\Models\Client;
 use AppModules\Invoice\src\Actions\CreateInvoiceAction;
-use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Payment\src\Jobs\SendPaymentReminderJob;
 use AppModules\Payment\src\Models\Payment;
@@ -19,7 +19,7 @@ it('listens to InvoiceCreated event', function () {
 
     $client = Client::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),
@@ -36,7 +36,7 @@ it('listens to InvoiceCreated event', function () {
 it('creates a payment record when invoice is created', function () {
     $client = Client::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),
@@ -64,7 +64,7 @@ it('schedules payment reminder when invoice has due date', function () {
 
     $client = Client::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),
@@ -84,7 +84,7 @@ it('does not schedule payment reminder when invoice has no due date', function (
 
     $client = Client::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: null,
@@ -103,7 +103,7 @@ it('does not schedule payment reminder when reminder date is in the past', funct
     $client = Client::factory()->create();
 
     // Due date is only 3 days away, so reminder (7 days before) would be in the past
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(3),
@@ -119,7 +119,7 @@ it('does not schedule payment reminder when reminder date is in the past', funct
 it('creates payment with correct amount matching invoice total', function () {
     $client = Client::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),

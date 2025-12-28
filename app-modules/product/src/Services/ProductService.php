@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace AppModules\Product\src\Services;
 
+use AppModules\Product\src\Contracts\ProductRepositoryContract;
 use AppModules\Product\src\Models\Product;
-use AppModules\Product\src\Repositories\ProductRepository;
 
 class ProductService
 {
     public function __construct(
-        private ProductRepository $repository
+        private ProductRepositoryContract $repository
     ) {}
 
     /**

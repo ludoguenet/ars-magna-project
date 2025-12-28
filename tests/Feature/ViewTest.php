@@ -91,9 +91,12 @@ describe('Client Views', function () {
 
     it('renders client show view', function () {
         actingAs(User::factory()->create());
-        $client = Client::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Test Client',
             'email' => 'test@example.com',
+        ]);
+        $client = Client::factory()->create([
+            'user_id' => $user->id,
         ]);
 
         get(route('client::show', $client->id))

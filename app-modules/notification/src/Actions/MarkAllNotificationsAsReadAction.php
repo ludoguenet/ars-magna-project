@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace AppModules\Notification\src\Actions;
 
-use AppModules\Notification\src\Repositories\NotificationRepository;
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
 
 class MarkAllNotificationsAsReadAction
 {
     public function __construct(
-        private NotificationRepository $repository
+        private NotificationRepositoryContract $repository
     ) {}
 
     /**

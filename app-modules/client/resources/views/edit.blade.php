@@ -54,7 +54,7 @@
                     <x-shared::input
                         name="address"
                         label="Address"
-                        :value="old('address', $client->address)"
+                        :value="old('address', $client->address?->address)"
                         :error="isset($errors) ? $errors->first('address') : null"
                     />
                 </div>
@@ -63,21 +63,21 @@
                     <x-shared::input
                         name="postal_code"
                         label="Postal Code"
-                        :value="old('postal_code', $client->postal_code)"
+                        :value="old('postal_code', $client->address?->postal_code)"
                         :error="isset($errors) ? $errors->first('postal_code') : null"
                     />
 
                     <x-shared::input
                         name="city"
                         label="City"
-                        :value="old('city', $client->city)"
+                        :value="old('city', $client->address?->city)"
                         :error="isset($errors) ? $errors->first('city') : null"
                     />
 
                     <x-shared::input
                         name="country"
                         label="Country"
-                        :value="old('country', $client->country)"
+                        :value="old('country', $client->address?->country)"
                         :error="isset($errors) ? $errors->first('country') : null"
                     />
                 </div>

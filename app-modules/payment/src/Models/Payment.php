@@ -36,15 +36,6 @@ class Payment extends Model
         return PaymentFactory::new();
     }
 
-    protected $fillable = [
-        'invoice_id',
-        'amount',
-        'status',
-        'payment_method',
-        'notes',
-        'paid_at',
-    ];
-
     protected $casts = [
         'amount' => 'decimal:2',
         'paid_at' => 'datetime',

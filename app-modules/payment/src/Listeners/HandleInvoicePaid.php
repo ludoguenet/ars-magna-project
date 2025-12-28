@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace AppModules\Payment\src\Listeners;
 
 use AppModules\Invoice\src\Events\InvoicePaid;
-use AppModules\Payment\src\Repositories\PaymentRepository;
+use AppModules\Payment\src\Contracts\PaymentRepositoryContract;
 use AppModules\Payment\src\Services\PaymentService;
 use Illuminate\Support\Facades\Log;
 
 class HandleInvoicePaid
 {
     public function __construct(
-        private PaymentRepository $paymentRepository,
+        private PaymentRepositoryContract $paymentRepository,
         private PaymentService $paymentService
     ) {}
 

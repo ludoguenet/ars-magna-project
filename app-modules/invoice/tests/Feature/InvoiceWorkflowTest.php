@@ -8,8 +8,8 @@ use AppModules\Invoice\src\Actions\CalculateInvoiceTotalsAction;
 use AppModules\Invoice\src\Actions\CreateInvoiceAction;
 use AppModules\Invoice\src\Actions\FinalizeInvoiceAction;
 use AppModules\Invoice\src\Actions\MarkInvoiceAsPaidAction;
-use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
-use AppModules\Invoice\src\DataTransferObjects\InvoiceItemData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceItemDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Invoice\src\Events\InvoiceFinalized;
@@ -36,7 +36,7 @@ it('can create a complete invoice workflow from draft to paid', function () {
     $product = Product::factory()->create();
 
     // Step 1: Create invoice (DRAFT status)
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),
@@ -65,7 +65,7 @@ it('can create a complete invoice workflow from draft to paid', function () {
     // Step 2: Add items to invoice
     $addItemAction = app(AddInvoiceItemAction::class);
 
-    $item1 = new InvoiceItemData(
+    $item1 = new InvoiceItemDTO(
         productId: $product->id,
         description: 'Product 1',
         quantity: 2,
@@ -74,7 +74,7 @@ it('can create a complete invoice workflow from draft to paid', function () {
         discountAmount: 0.0,
     );
 
-    $item2 = new InvoiceItemData(
+    $item2 = new InvoiceItemDTO(
         productId: null,
         description: 'Service 1',
         quantity: 1,
@@ -143,7 +143,7 @@ it('can create a complete invoice using the service', function () {
     $client = Client::factory()->create();
     $product = Product::factory()->create();
 
-    $invoiceData = new InvoiceData(
+    $invoiceData = new InvoiceDTO(
         clientId: $client->id,
         issuedAt: now(),
         dueAt: now()->addDays(30),
@@ -271,7 +271,7 @@ it('can add items to an existing invoice and recalculate totals', function () {
 
     $service = app(InvoiceService::class);
 
-    $newItem = new InvoiceItemData(
+    $newItem = new InvoiceItemDTO(
         productId: null,
         description: 'Additional item',
         quantity: 2,

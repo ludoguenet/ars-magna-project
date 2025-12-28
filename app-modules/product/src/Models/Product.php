@@ -34,16 +34,6 @@ class Product extends Model
         return ProductFactory::new();
     }
 
-    protected $fillable = [
-        'name',
-        'description',
-        'sku',
-        'price',
-        'tax_rate',
-        'unit',
-        'is_active',
-    ];
-
     protected $casts = [
         'price' => 'decimal:2',
         'tax_rate' => 'decimal:2',

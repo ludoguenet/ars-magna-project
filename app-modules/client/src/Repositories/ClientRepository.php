@@ -18,7 +18,10 @@ class ClientRepository implements ClientRepositoryContract
     public function all(): array
     {
         return Client::query()
-            ->orderBy('name')
+            ->with(['user', 'address'])
+            ->join('users', 'clients.user_id', '=', 'users.id')
+            ->orderBy('users.name')
+            ->select('clients.*')
             ->get()
             ->map(fn (Client $client) => ClientDTO::fromModel($client))
             ->toArray();
@@ -29,7 +32,7 @@ class ClientRepository implements ClientRepositoryContract
      */
     public function find(int $id): ?ClientDTO
     {
-        $client = Client::find($id);
+        $client = Client::with(['user', 'address'])->find($id);
 
         return $client ? ClientDTO::fromModel($client) : null;
     }
@@ -41,10 +44,16 @@ class ClientRepository implements ClientRepositoryContract
      */
     public function search(string $query): array
     {
-        return Client::where('name', 'like', "%{$query}%")
-            ->orWhere('email', 'like', "%{$query}%")
-            ->orWhere('company', 'like', "%{$query}%")
-            ->orderBy('name')
+        return Client::query()
+            ->with(['user', 'address'])
+            ->join('users', 'clients.user_id', '=', 'users.id')
+            ->where(function ($q) use ($query) {
+                $q->where('users.name', 'like', "%{$query}%")
+                    ->orWhere('users.email', 'like', "%{$query}%")
+                    ->orWhere('clients.company', 'like', "%{$query}%");
+            })
+            ->orderBy('users.name')
+            ->select('clients.*')
             ->get()
             ->map(fn (Client $client) => ClientDTO::fromModel($client))
             ->toArray();
@@ -53,7 +62,15 @@ class ClientRepository implements ClientRepositoryContract
     /**
      * Create a new client.
      */
-    public function create(array $data): Client
+    public function create(ClientDTO $data): Client
+    {
+        return Client::create($data->toArray());
+    }
+
+    /**
+     * Create a new client from array (internal use only).
+     */
+    public function createFromArray(array $data): Client
     {
         return Client::create($data);
     }
@@ -61,9 +78,9 @@ class ClientRepository implements ClientRepositoryContract
     /**
      * Update a client.
      */
-    public function update(Client $client, array $data): bool
+    public function update(Client $client, ClientDTO $data): bool
     {
-        return $client->update($data);
+        return $client->update($data->toArray());
     }
 
     /**
@@ -79,7 +96,7 @@ class ClientRepository implements ClientRepositoryContract
      */
     public function findModel(int $id): ?Client
     {
-        return Client::find($id);
+        return Client::with(['user', 'address'])->find($id);
     }
 
     /**
@@ -87,6 +104,11 @@ class ClientRepository implements ClientRepositoryContract
      */
     public function allModels(): \Illuminate\Database\Eloquent\Collection
     {
-        return Client::query()->orderBy('name')->get();
+        return Client::query()
+            ->with(['user', 'address'])
+            ->join('users', 'clients.user_id', '=', 'users.id')
+            ->orderBy('users.name')
+            ->select('clients.*')
+            ->get();
     }
 }

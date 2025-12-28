@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace AppModules\Invoice\src\Actions;
 
-use AppModules\Invoice\src\Repositories\InvoiceRepository;
+use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;
 
 class GenerateInvoiceNumberAction
 {
     public function __construct(
-        private InvoiceRepository $repository
+        private InvoiceRepositoryContract $repository
     ) {}
 
     /**

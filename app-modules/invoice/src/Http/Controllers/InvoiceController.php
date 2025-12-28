@@ -7,7 +7,7 @@ namespace AppModules\Invoice\src\Http\Controllers;
 use AppModules\Client\src\Contracts\ClientRepositoryContract;
 use AppModules\Invoice\src\Actions\MarkInvoiceAsPaidAction;
 use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;
-use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Http\Requests\MarkInvoiceAsPaidRequest;
 use AppModules\Invoice\src\Http\Requests\StoreInvoiceRequest;
 use AppModules\Invoice\src\Services\InvoiceService;
@@ -59,7 +59,7 @@ class InvoiceController
     public function store(StoreInvoiceRequest $request): RedirectResponse
     {
         $invoice = $this->invoiceService->createCompleteInvoice(
-            InvoiceData::fromRequest($request),
+            InvoiceDTO::fromRequest($request),
             $request->input('items', [])
         );
 
@@ -118,7 +118,7 @@ class InvoiceController
 
         $invoice = $this->invoiceService->updateCompleteInvoice(
             $invoice,
-            InvoiceData::fromRequest($request),
+            InvoiceDTO::fromRequest($request),
             $request->input('items', [])
         );
 

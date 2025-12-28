@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
+use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-it('creates InvoiceData from request with filled date fields', function () {
+it('creates InvoiceDTO from request with filled date fields', function () {
     $request = Request::create('/invoices', 'POST', [
         'client_id' => 1,
         'issued_at' => '2025-12-25',
@@ -18,7 +18,7 @@ it('creates InvoiceData from request with filled date fields', function () {
         'terms' => 'Test terms',
     ]);
 
-    $data = InvoiceData::fromRequest($request);
+    $data = InvoiceDTO::fromRequest($request);
 
     expect($data->clientId)->toBe(1);
     expect($data->issuedAt)->toBeInstanceOf(\DateTime::class);
@@ -27,7 +27,7 @@ it('creates InvoiceData from request with filled date fields', function () {
     expect($data->terms)->toBe('Test terms');
 });
 
-it('creates InvoiceData from request with empty date fields', function () {
+it('creates InvoiceDTO from request with empty date fields', function () {
     $request = Request::create('/invoices', 'POST', [
         'client_id' => 1,
         'issued_at' => '',
@@ -36,7 +36,7 @@ it('creates InvoiceData from request with empty date fields', function () {
         'terms' => 'Test terms',
     ]);
 
-    $data = InvoiceData::fromRequest($request);
+    $data = InvoiceDTO::fromRequest($request);
 
     expect($data->clientId)->toBe(1);
     expect($data->issuedAt)->toBeNull();
@@ -45,14 +45,14 @@ it('creates InvoiceData from request with empty date fields', function () {
     expect($data->terms)->toBe('Test terms');
 });
 
-it('creates InvoiceData from request with missing date fields', function () {
+it('creates InvoiceDTO from request with missing date fields', function () {
     $request = Request::create('/invoices', 'POST', [
         'client_id' => 1,
         'notes' => 'Test notes',
         'terms' => 'Test terms',
     ]);
 
-    $data = InvoiceData::fromRequest($request);
+    $data = InvoiceDTO::fromRequest($request);
 
     expect($data->clientId)->toBe(1);
     expect($data->issuedAt)->toBeNull();
@@ -61,28 +61,28 @@ it('creates InvoiceData from request with missing date fields', function () {
     expect($data->terms)->toBe('Test terms');
 });
 
-it('creates InvoiceData from request with only issued_at filled', function () {
+it('creates InvoiceDTO from request with only issued_at filled', function () {
     $request = Request::create('/invoices', 'POST', [
         'client_id' => 1,
         'issued_at' => '2025-12-25',
         'due_at' => '',
     ]);
 
-    $data = InvoiceData::fromRequest($request);
+    $data = InvoiceDTO::fromRequest($request);
 
     expect($data->clientId)->toBe(1);
     expect($data->issuedAt)->toBeInstanceOf(\DateTime::class);
     expect($data->dueAt)->toBeNull();
 });
 
-it('creates InvoiceData from request with only due_at filled', function () {
+it('creates InvoiceDTO from request with only due_at filled', function () {
     $request = Request::create('/invoices', 'POST', [
         'client_id' => 1,
         'issued_at' => '',
         'due_at' => '2026-01-25',
     ]);
 
-    $data = InvoiceData::fromRequest($request);
+    $data = InvoiceDTO::fromRequest($request);
 
     expect($data->clientId)->toBe(1);
     expect($data->issuedAt)->toBeNull();

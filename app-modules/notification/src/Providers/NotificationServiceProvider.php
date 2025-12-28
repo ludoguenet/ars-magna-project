@@ -4,9 +4,9 @@ namespace AppModules\Notification\src\Providers;
 
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Invoice\src\Events\InvoicePaid;
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
 use AppModules\Notification\src\Listeners\HandleInvoiceCreated;
 use AppModules\Notification\src\Listeners\HandleInvoicePaid;
-use AppModules\Notification\src\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -59,7 +59,7 @@ class NotificationServiceProvider extends ServiceProvider
         // Share notification data with all views (for navigation badge)
         View::composer('layouts.app', function ($view) {
             if (auth()->check()) {
-                $repository = app(NotificationRepository::class);
+                $repository = app(NotificationRepositoryContract::class);
                 $notifications = $repository->getUnreadForUser(auth()->id());
                 $unreadCount = $repository->getUnreadCount(auth()->id());
 

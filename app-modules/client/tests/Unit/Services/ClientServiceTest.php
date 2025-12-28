@@ -2,44 +2,65 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+use AppModules\Client\src\DataTransferObjects\ClientDTO;
 use AppModules\Client\src\Models\Client;
+use AppModules\Client\src\Services\ClientService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
 it('can create a client using service', function () {
-    $client = Client::factory()->create([
-        'name' => 'Test Client',
-        'email' => 'test@example.com',
-    ]);
+    $service = app(ClientService::class);
+
+    $clientData = new ClientDTO(
+        name: 'Test Client',
+        email: 'test@example.com',
+    );
+
+    $client = $service->create($clientData);
 
     expect($client)
         ->toBeInstanceOf(Client::class)
         ->name->toBe('Test Client')
         ->email->toBe('test@example.com');
 
-    $this->assertDatabaseHas('clients', [
+    $this->assertDatabaseHas('users', [
         'email' => 'test@example.com',
         'name' => 'Test Client',
+    ]);
+
+    $this->assertDatabaseHas('clients', [
+        'user_id' => $client->user_id,
     ]);
 });
 
 it('can update a client using service', function () {
-    $client = Client::factory()->create(['name' => 'Original Name']);
+    $service = app(ClientService::class);
 
-    $client->update([
-        'name' => 'Updated Name',
-        'phone' => '9876543210',
-    ]);
+    $user = User::factory()->create(['name' => 'Original Name']);
+    $client = Client::factory()->create(['user_id' => $user->id]);
 
-    expect($client->refresh())
+    $clientData = new ClientDTO(
+        name: 'Updated Name',
+        phone: '9876543210',
+    );
+
+    $updatedClient = $service->update($client, $clientData);
+
+    expect($updatedClient)
         ->name->toBe('Updated Name')
         ->phone->toBe('9876543210');
 
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'name' => 'Updated Name',
+    ]);
+
     $this->assertDatabaseHas('clients', [
         'id' => $client->id,
-        'name' => 'Updated Name',
+        'phone' => '9876543210',
     ]);
 });
 
@@ -62,10 +83,14 @@ it('can retrieve all clients', function () {
 });
 
 it('can find a client by email', function () {
-    Client::factory()->create(['name' => 'John Doe', 'email' => 'john@example.com']);
-    Client::factory()->create(['name' => 'Jane Doe', 'email' => 'jane@example.com']);
+    $user1 = User::factory()->create(['name' => 'John Doe', 'email' => 'john@example.com']);
+    $user2 = User::factory()->create(['name' => 'Jane Doe', 'email' => 'jane@example.com']);
+    Client::factory()->create(['user_id' => $user1->id]);
+    Client::factory()->create(['user_id' => $user2->id]);
 
-    $client = Client::where('email', 'john@example.com')->first();
+    $client = Client::whereHas('user', function ($query) {
+        $query->where('email', 'john@example.com');
+    })->first();
 
     expect($client)
         ->not->toBeNull()

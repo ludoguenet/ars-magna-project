@@ -10,24 +10,41 @@ use AppModules\Product\src\DataTransferObjects\ProductDTO;
 final readonly class InvoiceItemDTO
 {
     public function __construct(
-        public int $id,
-        public int $invoiceId,
-        public ?int $productId,
-        public ?ProductDTO $product,
-        public string $description,
-        public float $quantity,
-        public float $unitPrice,
+        public ?int $id = null,
+        public ?int $invoiceId = null,
+        public ?int $productId = null,
+        public ?ProductDTO $product = null,
+        public string $description = '',
+        public float $quantity = 0.0,
+        public float $unitPrice = 0.0,
         public float $taxRate = 0.0,
         public float $discountAmount = 0.0,
         public float $lineTotal = 0.0,
     ) {}
 
     /**
+     * Create from array.
+     */
+    public static function from(array $data): self
+    {
+        return new self(
+            productId: isset($data['product_id']) && $data['product_id'] !== '' ? (int) $data['product_id'] : null,
+            description: $data['description'],
+            quantity: (float) ($data['quantity'] ?? 1),
+            unitPrice: (float) ($data['unit_price'] ?? 0),
+            taxRate: (float) ($data['tax_rate'] ?? 0),
+            discountAmount: (float) ($data['discount_amount'] ?? 0),
+        );
+    }
+
+    /**
      * Create from Eloquent model.
      */
     public static function fromModel(InvoiceItem $item): self
     {
-        $product = $item->relationLoaded('product') && $item->product
+        $item->loadMissing('product');
+
+        $product = $item->product
             ? ProductDTO::fromModel($item->product)
             : null;
 

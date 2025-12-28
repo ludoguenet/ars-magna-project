@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace AppModules\Invoice\src\Actions;
 
-use AppModules\Invoice\src\DataTransferObjects\InvoiceData;
+use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;
 use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Invoice\src\Models\Invoice;
-use AppModules\Invoice\src\Repositories\InvoiceRepository;
 
 class CreateInvoiceAction
 {
     public function __construct(
-        private InvoiceRepository $repository,
+        private InvoiceRepositoryContract $repository,
         private GenerateInvoiceNumberAction $generateNumber
     ) {}
 
     /**
      * Execute the action.
      */
-    public function handle(InvoiceData $data): Invoice
+    public function handle(InvoiceDTO $data): Invoice
     {
         $invoiceNumber = $this->generateNumber->handle($data->clientId);
 

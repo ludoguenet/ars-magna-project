@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace AppModules\Payment\src\Services;
 
 use AppModules\Invoice\src\DataTransferObjects\InvoiceDTO;
-use AppModules\Payment\src\Repositories\PaymentRepository;
+use AppModules\Payment\src\Contracts\PaymentRepositoryContract;
 
 class PaymentService
 {
     public function __construct(
-        private PaymentRepository $repository
+        private PaymentRepositoryContract $repository
     ) {}
 
     /**

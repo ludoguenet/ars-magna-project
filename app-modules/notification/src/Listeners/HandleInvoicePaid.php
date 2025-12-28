@@ -6,7 +6,7 @@ namespace AppModules\Notification\src\Listeners;
 
 use AppModules\Invoice\src\Events\InvoicePaid;
 use AppModules\Notification\src\Actions\CreateNotificationAction;
-use AppModules\Notification\src\DataTransferObjects\NotificationData;
+use AppModules\Notification\src\DataTransferObjects\NotificationDTO;
 use AppModules\Notification\src\Enums\NotificationType;
 
 class HandleInvoicePaid
@@ -29,7 +29,7 @@ class HandleInvoicePaid
         }
 
         $this->createNotificationAction->handle(
-            new NotificationData(
+            new NotificationDTO(
                 userId: auth()->id(),
                 type: NotificationType::PAYMENT_RECEIVED,
                 title: 'Invoice Paid',

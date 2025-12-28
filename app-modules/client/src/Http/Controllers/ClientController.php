@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace AppModules\Client\src\Http\Controllers;
 
+use AppModules\Client\src\Contracts\ClientRepositoryContract;
+use AppModules\Client\src\DataTransferObjects\ClientDTO;
 use AppModules\Client\src\Http\Requests\StoreClientRequest;
 use AppModules\Client\src\Http\Requests\UpdateClientRequest;
-use AppModules\Client\src\Repositories\ClientRepository;
 use AppModules\Client\src\Services\ClientService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ClientController
 {
     public function __construct(
         private ClientService $clientService,
-        private ClientRepository $repository
+        private ClientRepositoryContract $repository
     ) {}
 
     /**
@@ -24,7 +25,6 @@ class ClientController
      */
     public function index(Request $request): View
     {
-        // Internal use - can use models directly
         $clients = $this->repository->allModels();
 
         return view('client::index', compact('clients'));
@@ -43,7 +43,8 @@ class ClientController
      */
     public function store(StoreClientRequest $request): RedirectResponse
     {
-        $client = $this->clientService->create($request->validated());
+        $clientData = ClientDTO::fromArray($request->validated());
+        $client = $this->clientService->create($clientData);
 
         return redirect()
             ->route('client::show', $client)
@@ -55,7 +56,6 @@ class ClientController
      */
     public function show(int $id): View
     {
-        // Internal use - can use models directly
         $client = $this->repository->findModel($id);
 
         if (! $client) {
@@ -92,7 +92,8 @@ class ClientController
             abort(404);
         }
 
-        $this->clientService->update($client, $request->validated());
+        $clientData = ClientDTO::fromArray($request->validated());
+        $this->clientService->update($client, $clientData);
 
         return redirect()
             ->route('client::show', $client)

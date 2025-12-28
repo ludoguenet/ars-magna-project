@@ -14,7 +14,10 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register any bindings here
+        $this->app->bind(
+            \AppModules\Payment\src\Contracts\PaymentRepositoryContract::class,
+            \AppModules\Payment\src\Repositories\PaymentRepository::class
+        );
     }
 
     /**

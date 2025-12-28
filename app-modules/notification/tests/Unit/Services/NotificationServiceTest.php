@@ -7,10 +7,10 @@ use AppModules\Notification\src\Actions\CreateNotificationAction;
 use AppModules\Notification\src\Actions\DeleteNotificationAction;
 use AppModules\Notification\src\Actions\MarkAllNotificationsAsReadAction;
 use AppModules\Notification\src\Actions\MarkNotificationAsReadAction;
-use AppModules\Notification\src\DataTransferObjects\NotificationData;
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
+use AppModules\Notification\src\DataTransferObjects\NotificationDTO;
 use AppModules\Notification\src\Enums\NotificationType;
 use AppModules\Notification\src\Models\Notification;
-use AppModules\Notification\src\Repositories\NotificationRepository;
 use AppModules\Notification\src\Services\NotificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -20,13 +20,13 @@ uses(Tests\TestCase::class, RefreshDatabase::class);
 
 it('sends a notification', function () {
     $user = User::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);
     $deleteAction = mock(DeleteNotificationAction::class);
 
-    $notificationData = new NotificationData(
+    $notificationData = new NotificationDTO(
         userId: $user->id,
         type: NotificationType::INVOICE_CREATED,
         title: 'Test Title',
@@ -61,7 +61,7 @@ it('sends a notification', function () {
 
 it('marks a notification as read', function () {
     $notification = Notification::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);
@@ -87,7 +87,7 @@ it('marks a notification as read', function () {
 
 it('marks all notifications as read for a user', function () {
     $user = User::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);
@@ -113,7 +113,7 @@ it('marks all notifications as read for a user', function () {
 
 it('gets unread count for a user', function () {
     $user = User::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);
@@ -139,7 +139,7 @@ it('gets unread count for a user', function () {
 
 it('gets all notifications for a user', function () {
     $user = User::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);
@@ -169,7 +169,7 @@ it('gets all notifications for a user', function () {
 
 it('deletes a notification', function () {
     $notification = Notification::factory()->create();
-    $repository = mock(NotificationRepository::class);
+    $repository = mock(NotificationRepositoryContract::class);
     $createAction = mock(CreateNotificationAction::class);
     $markAsReadAction = mock(MarkNotificationAsReadAction::class);
     $markAllAsReadAction = mock(MarkAllNotificationsAsReadAction::class);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace AppModules\Notification\src\Http\Controllers;
 
+use AppModules\Notification\src\Contracts\NotificationRepositoryContract;
 use AppModules\Notification\src\Http\Requests\MarkNotificationAsReadRequest;
 use AppModules\Notification\src\Models\Notification;
-use AppModules\Notification\src\Repositories\NotificationRepository;
 use AppModules\Notification\src\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -15,7 +15,7 @@ class NotificationController
 {
     public function __construct(
         private NotificationService $notificationService,
-        private NotificationRepository $repository
+        private NotificationRepositoryContract $repository
     ) {}
 
     /**

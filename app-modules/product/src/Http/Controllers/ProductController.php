@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace AppModules\Product\src\Http\Controllers;
 
+use AppModules\Product\src\Contracts\ProductRepositoryContract;
 use AppModules\Product\src\Http\Requests\StoreProductRequest;
 use AppModules\Product\src\Http\Requests\UpdateProductRequest;
-use AppModules\Product\src\Repositories\ProductRepository;
 use AppModules\Product\src\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class ProductController
 {
     public function __construct(
         private ProductService $productService,
-        private ProductRepository $repository
+        private ProductRepositoryContract $repository
     ) {}
 
     /**

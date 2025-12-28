@@ -43,20 +43,6 @@ class Invoice extends Model
         return InvoiceFactory::new();
     }
 
-    protected $fillable = [
-        'invoice_number',
-        'client_id',
-        'status',
-        'issued_at',
-        'due_at',
-        'subtotal',
-        'tax_amount',
-        'discount_amount',
-        'total',
-        'notes',
-        'terms',
-    ];
-
     protected $casts = [
         'issued_at' => 'datetime',
         'due_at' => 'datetime',

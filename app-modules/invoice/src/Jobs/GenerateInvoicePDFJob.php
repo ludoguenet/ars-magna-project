@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AppModules\Invoice\src\Jobs;
 
+use AppModules\Invoice\src\Contracts\InvoiceRepositoryContract;
 use AppModules\Invoice\src\Models\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,9 +23,8 @@ class GenerateInvoicePDFJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(InvoiceRepositoryContract $repository): void
     {
-        $repository = app(\AppModules\Invoice\src\Repositories\InvoiceRepository::class);
         $invoice = $repository->findModel($this->invoiceId);
 
         if (! $invoice) {
