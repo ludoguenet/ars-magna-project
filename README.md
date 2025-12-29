@@ -1,110 +1,110 @@
-# Application de Facturation - Architecture Modular Monolith
+# Billing Application - Modular Monolith Architecture
 
-Application Laravel de facturation complète utilisant une architecture **Modular Monolith** inspirée d'Artisan Airlines (Laracon India 2025).
+Complete Laravel billing application using a **Modular Monolith** architecture inspired by Artisan Airlines (Laracon India 2025).
 
 ## 🏗️ Architecture
 
-### Principe du Modular Monolith
+### Modular Monolith Principle
 
-Un monolithe modulaire est un système où toutes les fonctionnalités résident dans une seule codebase, mais avec des **frontières strictement appliquées** entre différents domaines métier.
+A modular monolith is a system where all functionality resides in a single codebase, but with **strictly enforced boundaries** between different business domains.
 
-**Avantages** :
-- ✅ Pas de complexité réseau (contrairement aux microservices)
-- ✅ Transactions ACID maintenues
-- ✅ Déploiement simplifié
-- ✅ Performance optimale
-- ✅ Migration progressive possible vers microservices si besoin
+**Advantages:**
+- ✅ No network complexity (unlike microservices)
+- ✅ ACID transactions maintained
+- ✅ Simplified deployment
+- ✅ Optimal performance
+- ✅ Progressive migration to microservices possible if needed
 
-### Structure des Modules
+### Module Structure
 
-Chaque module suit la structure **Laravel standard** organisée par domaine métier :
+Each module follows the **Laravel standard** structure organized by business domain:
 
 ```
 app-modules/
 ├── ModuleName/
-│   ├── src/                  # Équivalent à app/ - Tout le code
+│   ├── src/                  # Equivalent to app/ - All code
 │   │   ├── Http/             # Controllers, Requests
-│   │   ├── Models/           # Modèles Eloquent
-│   │   ├── Repositories/     # Abstraction d'accès aux données
-│   │   ├── Services/         # Services d'orchestration
-│   │   ├── Actions/          # Actions à responsabilité unique
+│   │   ├── Models/           # Eloquent Models
+│   │   ├── Repositories/     # Data access abstraction
+│   │   ├── Services/         # Orchestration services
+│   │   ├── Actions/          # Single responsibility actions
 │   │   ├── DataTransferObjects/  # DTOs
-│   │   ├── Events/           # Événements
+│   │   ├── Events/           # Events
 │   │   ├── Enums/            # PHP Enums
-│   │   ├── Exceptions/       # Exceptions personnalisées
-│   │   ├── Contracts/        # APIs publiques (interfaces)
-│   │   ├── Jobs/             # Tâches en arrière-plan
-│   │   ├── Listeners/        # Écouteurs d'événements
+│   │   ├── Exceptions/       # Custom exceptions
+│   │   ├── Contracts/        # Public APIs (interfaces)
+│   │   ├── Jobs/             # Background tasks
+│   │   ├── Listeners/        # Event listeners
 │   │   └── Providers/        # Service Provider
-│   ├── routes/               # Routes du module
+│   ├── routes/               # Module routes
 │   │   └── web.php
 │   ├── database/             # Migrations, Factories, Seeders
-│   └── tests/                # Tests unitaires et fonctionnels
+│   └── tests/                # Unit and functional tests
 ```
 
-**Vues et Composants:**
-- Vues: `resources/views/modules/{module}/` (chargées avec namespace)
-- Composants: `resources/views/components/{module}/` (composants anonymes)
+**Views and Components:**
+- Views: `resources/views/modules/{module}/` (loaded with namespace)
+- Components: `resources/views/components/{module}/` (anonymous components)
 
-## 📦 Modules Disponibles
+## 📦 Available Modules
 
-### Modules Métier
+### Business Modules
 
-- **User** - Gestion utilisateurs et équipe
-- **Auth** - Authentification et sessions
-- **Dashboard** - Tableau de bord et statistiques
-- **Client** - Gestion des clients
-- **Product** - Catalogue produits/services
-- **Invoice** - Cœur de la facturation (module le plus complexe)
-- **Quote** - Devis (logique similaire aux factures)
-- **Payment** - Gestion des paiements
-- **Document** - Génération documents (PDF, Excel)
-- **Reporting** - Rapports et analyses
-- **Settings** - Configuration application
+- **User** - User and team management
+- **Auth** - Authentication and sessions
+- **Dashboard** - Dashboard and statistics
+- **Client** - Client management
+- **Product** - Product/service catalog
+- **Invoice** - Billing core (most complex module)
+- **Quote** - Quotes (similar logic to invoices)
+- **Payment** - Payment management
+- **Document** - Document generation (PDF, Excel)
+- **Reporting** - Reports and analytics
+- **Settings** - Application configuration
 
-### Module Partagé
+### Shared Module
 
-- **Shared** - Code partagé entre modules (ValueObjects, Components Blade)
+- **Shared** - Code shared between modules (ValueObjects, Blade Components)
 
-## 🛠️ Commandes Artisan Personnalisées
+## 🛠️ Custom Artisan Commands
 
-### Créer un nouveau module
+### Create a new module
 
 ```bash
 php artisan make:module ModuleName
 ```
 
-Crée un module complet avec toute la structure de dossiers nécessaire.
+Creates a complete module with all necessary folder structure.
 
-### Créer une Action dans un module
+### Create an Action in a module
 
 ```bash
 php artisan make:module-action Invoice CreateInvoiceAction
 ```
 
-### Créer un Service dans un module
+### Create a Service in a module
 
 ```bash
 php artisan make:module-service Invoice InvoiceService
 ```
 
-### Créer un Repository dans un module
+### Create a Repository in a module
 
 ```bash
 php artisan make:module-repository Invoice InvoiceRepository
 ```
 
-## 📝 Bonnes Pratiques
+## 📝 Best Practices
 
 ### 1. Actions (Single Responsibility)
 
-Chaque Action doit :
-- **Faire une seule chose** (principe SOLID)
-- **Être facilement testable** unitairement
-- **Utiliser l'injection de dépendances**
-- **Pouvoir s'exécuter dans la queue** si nécessaire
+Each Action must:
+- **Do one thing** (SOLID principle)
+- **Be easily testable** unitarily
+- **Use dependency injection**
+- **Be able to execute in the queue** if necessary
 
-**Exemple** :
+**Example:**
 ```php
 class CreateInvoiceAction
 {
@@ -115,14 +115,14 @@ class CreateInvoiceAction
 
     public function handle(InvoiceData $data): Invoice
     {
-        // Logique métier ici
+        // Business logic here
     }
 }
 ```
 
-### 2. Services pour Orchestration
+### 2. Services for Orchestration
 
-Les Services orchestrent plusieurs Actions pour implémenter des use cases complexes :
+Services orchestrate multiple Actions to implement complex use cases:
 
 ```php
 class InvoiceService
@@ -140,9 +140,9 @@ class InvoiceService
 }
 ```
 
-### 3. Controllers Fins
+### 3. Thin Controllers
 
-Les Controllers doivent être fins (< 15 lignes) et juste déléguer aux Services :
+Controllers should be thin (< 15 lines) and just delegate to Services:
 
 ```php
 public function store(StoreInvoiceRequest $request)
@@ -154,40 +154,40 @@ public function store(StoreInvoiceRequest $request)
     
     return redirect()
         ->route('invoice::show', $invoice)
-        ->with('success', 'Facture créée avec succès');
+        ->with('success', 'Invoice created successfully');
 }
 ```
 
-### 4. Communication Inter-Modules
+### 4. Inter-Module Communication
 
-Les modules communiquent via **Events** pour éviter les dépendances directes :
+Modules communicate via **Events** to avoid direct dependencies:
 
 ```php
-// Module Invoice
+// Invoice Module
 event(new InvoiceCreated($invoice));
 
-// Module Payment (Listener)
+// Payment Module (Listener)
 class SendPaymentNotification
 {
     public function handle(InvoiceCreated $event)
     {
-        // Réagir à la création de facture
+        // React to invoice creation
     }
 }
 ```
 
-### 5. Blade Components avec Namespace
+### 5. Blade Components with Namespace
 
-Utiliser les composants avec namespace pour éviter les conflits :
+Use namespaced components to avoid conflicts:
 
 ```blade
 <x-invoice::invoice-status :status="$invoice->status" />
-<x-shared::button variant="primary">Créer</x-shared::button>
+<x-shared::button variant="primary">Create</x-shared::button>
 ```
 
 ## 🧪 Tests
 
-Les tests sont organisés par module :
+Tests are organized by module:
 
 ```
 app-modules/Invoice/tests/
@@ -201,54 +201,54 @@ app-modules/Invoice/tests/
 
 ## 🎨 Frontend
 
-- **Blade** pour les templates
-- **Alpine.js** pour l'interactivité légère
-- **Tailwind CSS** pour le styling
-- **Chart.js** pour les graphiques (dashboard)
+- **Blade** for templates
+- **Alpine.js** for light interactivity
+- **Tailwind CSS** for styling
+- **Chart.js** for charts (dashboard)
 
-## 📚 Documentation Supplémentaire
+## 📚 Additional Documentation
 
-- [Guide de création d'un module](docs/creating-a-module.md)
+- [Module creation guide](docs/creating-a-module.md)
 - [Architecture Decision Records](docs/adr/)
-- [Conventions de nommage](docs/naming-conventions.md)
+- [Naming conventions](docs/naming-conventions.md)
 
 ## 🚀 Installation
 
-### Prérequis
+### Prerequisites
 
-- PHP 8.5.1 ou supérieur
+- PHP 8.5.1 or higher
 - Composer
-- Node.js et npm
+- Node.js and npm
 
-### Étapes d'installation
+### Installation Steps
 
-1. **Cloner le projet**
+1. **Clone the project**
    ```bash
    git clone <repository-url>
    cd big-project
    ```
 
-2. **Installer les dépendances**
+2. **Install dependencies**
    ```bash
    composer install
    npm install
    ```
 
-3. **Configurer l'environnement**
+3. **Configure environment**
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
-4. **Configurer la base de données**
+4. **Configure database**
    
-   Pour SQLite (par défaut) :
+   For SQLite (default):
    ```bash
    touch database/database.sqlite
    chmod 664 database/database.sqlite
    ```
    
-   Ou configurez votre base de données dans `.env` :
+   Or configure your database in `.env`:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -258,110 +258,110 @@ app-modules/Invoice/tests/
    DB_PASSWORD=your_password
    ```
 
-5. **Exécuter les migrations**
+5. **Run migrations**
    ```bash
    php artisan migrate
    ```
 
-6. **Compiler les assets**
+6. **Compile assets**
    
-   Pour le développement (avec hot-reload) :
+   For development (with hot-reload):
    ```bash
    npm run dev
    ```
    
-   Pour la production :
+   For production:
    ```bash
    npm run build
    ```
 
-7. **Démarrer le serveur**
+7. **Start the server**
    
-   Mode simple :
+   Simple mode:
    ```bash
    php artisan serve
    ```
    
-   Mode développement complet (serveur + queue + logs + Vite) :
+   Full development mode (server + queue + logs + Vite):
    ```bash
    composer run dev
    ```
 
-8. **Accéder à l'application**
+8. **Access the application**
    
-   Ouvrez votre navigateur et allez sur : **http://localhost:8000**
+   Open your browser and go to: **http://localhost:8000**
 
-## 🎯 Utilisation
+## 🎯 Usage
 
-### Workflow de base
+### Basic workflow
 
-1. **Créer des Clients** → Menu "Clients" → "New Client"
-2. **Créer des Produits** → Menu "Products" → "New Product"
-3. **Créer des Factures** → Menu "Invoices" → "New Invoice"
+1. **Create Clients** → Menu "Clients" → "New Client"
+2. **Create Products** → Menu "Products" → "New Product"
+3. **Create Invoices** → Menu "Invoices" → "New Invoice"
 
-### URLs principales
+### Main URLs
 
-- **Dashboard** : `/dashboard`
-- **Clients** : `/clients`
-- **Products** : `/products`
-- **Invoices** : `/invoices`
-- **Notifications** : `/notifications`
+- **Dashboard**: `/dashboard`
+- **Clients**: `/clients`
+- **Products**: `/products`
+- **Invoices**: `/invoices`
+- **Notifications**: `/notifications`
 
-## 🔧 Commandes utiles
+## 🔧 Useful Commands
 
-### Voir toutes les routes
+### View all routes
 ```bash
 php artisan route:list
 ```
 
-### Formater le code
+### Format code
 ```bash
 vendor/bin/pint
 ```
 
-### Lancer les tests
+### Run tests
 ```bash
 php artisan test
 ```
 
-### Réinitialiser la base de données (⚠️ supprime toutes les données)
+### Reset database (⚠️ deletes all data)
 ```bash
 php artisan migrate:fresh
 ```
 
-### Nettoyer les caches
+### Clear caches
 ```bash
 php artisan optimize:clear
 composer dump-autoload
 ```
 
-## 🐛 Dépannage
+## 🐛 Troubleshooting
 
-### Erreur "Class not found"
+### "Class not found" error
 ```bash
 composer dump-autoload
 php artisan optimize:clear
 ```
 
-### Les assets ne se chargent pas
+### Assets not loading
 ```bash
 npm run build
-# ou
+# or
 npm run dev
 ```
 
-### Base de données SQLite verrouillée
+### SQLite database locked
 ```bash
 chmod 664 database/database.sqlite
 ```
 
-### Les routes ne fonctionnent pas
+### Routes not working
 ```bash
 php artisan optimize:clear
 php artisan route:clear
 composer dump-autoload
 ```
 
-## 📄 Licence
+## 📄 License
 
 MIT
