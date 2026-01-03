@@ -176,11 +176,11 @@ class HandleInvoiceCreated
 
 ## Registering Listeners
 
-There are two ways to register listeners in Laravel 12:
+Laravel 12's **auto-discovery** feature automatically finds and registers all listeners. No manual registration needed!
 
-### Method 1: Auto-Discovery (Recommended)
+### Auto-Discovery Setup
 
-Laravel 12 can auto-discover listeners. In `bootstrap/app.php`:
+In `bootstrap/app.php`, configure event discovery:
 
 ```php
 ->withEvents(discover: [
@@ -188,36 +188,38 @@ Laravel 12 can auto-discover listeners. In `bootstrap/app.php`:
 ])
 ```
 
-Laravel automatically finds all listener classes in `Listeners` directories and registers them based on type hints.
+That's it! Laravel automatically discovers and registers all listeners.
 
-**How it works:**
-- Laravel scans `app-modules/*/src/Listeners` directories
-- It finds classes with `handle()` methods
-- It reads the type hint of the `handle()` method parameter
-- It automatically registers: `Event::listen(InvoiceCreated::class, HandleInvoiceCreated::class)`
+### How Auto-Discovery Works
 
-**Benefits:**
-- ✅ No manual registration needed
-- ✅ Listeners are automatically discovered
-- ✅ Works across all modules
+1. **Laravel scans** all `app-modules/*/src/Listeners` directories
+2. **Finds classes** with `handle()` methods
+3. **Reads type hints** from the `handle()` method parameter
+4. **Automatically registers** the listener for that event type
 
-### Method 2: Manual Registration
-
-For explicit control, register listeners in the ServiceProvider:
+For example, when Laravel finds:
 
 ```php
-// NotificationServiceProvider
-public function boot(): void
+// Payment module: HandleInvoiceCreated
+class HandleInvoiceCreated
 {
-    Event::listen(InvoiceCreated::class, HandleInvoiceCreated::class);
-    Event::listen(InvoicePaid::class, HandleInvoicePaid::class);
+    public function handle(InvoiceCreated $event): void
+    {
+        // ...
+    }
 }
 ```
 
-**When to use:**
-- When you need conditional registration
-- When you want explicit documentation of what listens to what
-- When auto-discovery doesn't work for your use case
+It automatically registers: `Event::listen(InvoiceCreated::class, HandleInvoiceCreated::class)`
+
+### Benefits
+
+- ✅ **Zero configuration** - Just create the listener class
+- ✅ **Automatic discovery** - Works across all modules
+- ✅ **Type-safe** - Based on method parameter type hints
+- ✅ **No ServiceProvider clutter** - Keep providers focused on their core responsibilities
+
+**In this project:** All listeners (Payment, Notification, Invoice) are auto-discovered. No manual registration in ServiceProviders needed!
 
 ## Complete Flow: Invoice Lifecycle
 
@@ -268,6 +270,8 @@ public function handle(InvoiceFinalized $event): void
     SendInvoiceEmailJob::dispatch($invoice->id);
 }
 ```
+
+**Note:** The actual implementation includes logging for monitoring, but we've simplified it here for clarity.
 
 **Note:** The Invoice module can listen to its own events! This keeps related logic together while still using the event system.
 

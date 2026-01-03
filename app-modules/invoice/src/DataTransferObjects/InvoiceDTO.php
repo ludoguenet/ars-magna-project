@@ -8,6 +8,7 @@ use AppModules\Client\src\DataTransferObjects\ClientDTO;
 use AppModules\Invoice\src\Enums\InvoiceStatus;
 use AppModules\Invoice\src\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 final readonly class InvoiceDTO
 {
@@ -20,8 +21,8 @@ final readonly class InvoiceDTO
         public int $clientId = 0,
         public ?ClientDTO $client = null,
         public ?InvoiceStatus $status = null,
-        public ?\DateTime $issuedAt = null,
-        public ?\DateTime $dueAt = null,
+        public ?Carbon $issuedAt = null,
+        public ?Carbon $dueAt = null,
         public float $subtotal = 0.0,
         public float $taxAmount = 0.0,
         public float $discountAmount = 0.0,
@@ -39,8 +40,8 @@ final readonly class InvoiceDTO
     {
         return new self(
             clientId: $request->integer('client_id'),
-            issuedAt: $request->filled('issued_at') ? new \DateTime($request->input('issued_at')) : null,
-            dueAt: $request->filled('due_at') ? new \DateTime($request->input('due_at')) : null,
+            issuedAt: $request->filled('issued_at') ? Carbon::parse($request->input('issued_at')) : null,
+            dueAt: $request->filled('due_at') ? Carbon::parse($request->input('due_at')) : null,
             notes: $request->input('notes'),
             terms: $request->input('terms'),
             shouldFinalize: $request->boolean('finalize', false),
@@ -66,8 +67,8 @@ final readonly class InvoiceDTO
             clientId: $invoice->client_id,
             client: $client,
             status: $invoice->status,
-            issuedAt: $invoice->issued_at ? \DateTime::createFromInterface($invoice->issued_at) : null,
-            dueAt: $invoice->due_at ? \DateTime::createFromInterface($invoice->due_at) : null,
+            issuedAt: $invoice->issued_at ? Carbon::instance($invoice->issued_at) : null,
+            dueAt: $invoice->due_at ? Carbon::instance($invoice->due_at) : null,
             subtotal: (float) $invoice->subtotal,
             taxAmount: (float) $invoice->tax_amount,
             discountAmount: (float) $invoice->discount_amount,

@@ -7,7 +7,6 @@ namespace AppModules\Payment\src\Listeners;
 use AppModules\Invoice\src\Events\InvoiceCreated;
 use AppModules\Payment\src\Jobs\SendPaymentReminderJob;
 use AppModules\Payment\src\Services\PaymentService;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class HandleInvoiceCreated
@@ -48,7 +47,7 @@ class HandleInvoiceCreated
         // 2. Schedule a payment reminder if due date exists
         if ($invoice->dueAt) {
             // Schedule reminder 7 days before due date
-            $reminderDate = Carbon::instance($invoice->dueAt)->copy()->subDays(7);
+            $reminderDate = $invoice->dueAt->copy()->subDays(7);
 
             // Only schedule if reminder date is in the future
             if ($reminderDate->isFuture()) {
@@ -58,7 +57,7 @@ class HandleInvoiceCreated
                 Log::info('Payment reminder scheduled', [
                     'invoice_id' => $invoice->id,
                     'reminder_date' => $reminderDate->format('Y-m-d'),
-                    'due_date' => Carbon::instance($invoice->dueAt)->format('Y-m-d'),
+                    'due_date' => $invoice->dueAt->format('Y-m-d'),
                 ]);
             }
         }
